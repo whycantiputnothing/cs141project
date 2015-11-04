@@ -1,9 +1,15 @@
 
 public class Room extends BoardPiece{
 
-	public Room(String s) {
+	private boolean hasBriefcase;
+	
+	public Room(String s, boolean b) {
 		super(s);
+		hasBriefcase = b;
 		// TODO Auto-generated constructor stub
 	}
 
+	public boolean getHasBriefcase(){
+		return hasBriefcase;
+	}
 }
