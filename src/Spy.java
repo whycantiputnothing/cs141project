@@ -1,15 +1,8 @@
-/**
- * 
- */
-
-/**
- * @author Brandon Nguyen
- *
- */
 public class Spy extends BoardPiece {
 	
 	private int ammoCount;
 	
+	private int numberOfLives;
 
 	public Spy(String s) {
 		super(s);
@@ -19,6 +12,14 @@ public class Spy extends BoardPiece {
 	
 	public void setAmmoCount(){
 		
+	}
+	
+	public void setNumberOfLives(){
+		
+	}
+	
+	public int getNumberOfLives{
+		return numberOfLives
 	}
 
 }
