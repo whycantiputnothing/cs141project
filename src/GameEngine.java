@@ -17,6 +17,10 @@ public class GameEngine {
 		
 	}
 	
+	private int moveCounter(){
+		int moveCount = 0;
+		return moveCount;
+	}
 
 	private static int numberOfLives(){
 		int lives = 0;
