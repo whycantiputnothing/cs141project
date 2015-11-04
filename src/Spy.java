@@ -18,8 +18,8 @@ public class Spy extends BoardPiece {
 		
 	}
 	
-	public int getNumberOfLives{
-		return numberOfLives
+	public int getNumberOfLives(){
+		return numberOfLives;
 	}
 
 }
