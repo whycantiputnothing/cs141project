@@ -1,19 +1,27 @@
 
 public class Grid {
 
-    public Grid() {
-	}
+	private BoardPiece[][] grid = new BoardPiece[9][9];
 	
-	public void startGrid(){
+	 
+		
+	public void instantiateGrid(){
+		
 		
 	}
 	
-	public String printGrid(){
-		return null;
+	public void shuffle() {
+		
 	}
-	
-	public void getMovement(){
+	public void getBoardPieceAt(){
 		
 	}
 
-}
+	
+	public String toString() {
+		String printPosition = "";
+		 
+		return printPosition;
+		
+	}
+}	
