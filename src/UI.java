@@ -18,7 +18,7 @@ public class UI {
 	}
 	
 	
-	public void deadMessage(){
+	public static void deadMessage(){
 		
 	}
 	
