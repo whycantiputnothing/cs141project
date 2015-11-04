@@ -21,27 +21,12 @@ public class GameEngine {
 		
 	}
 	
-	private int moveCounter(){
-		int moveCount = 0;
-		return moveCount;
-	}
-
-	private static int numberOfLives(){
-		int lives = 0;
-		return lives;
-	}
-	
 	public void deadReset(){
 		
 	}
 	
 	public void invincibility(){
 	
-	}
-	
-	private static int ammoCount(){
-		int ammo = 0;
-		return ammo;
 	}
 	
 	public void moveSpace(){
