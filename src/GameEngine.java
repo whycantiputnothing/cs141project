@@ -1,6 +1,10 @@
 
 public class GameEngine {
     
+    	private int numberOfMoves;
+    	
+    	private Grid gameBoard = new Grid();
+    	
 	private boolean isAlive(){
 		return true;
 	}
