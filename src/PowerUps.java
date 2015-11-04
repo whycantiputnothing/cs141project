@@ -13,4 +13,15 @@ public class PowerUps extends BoardPiece {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void invincibility(){
+		
+	}
+	
+	public void radar(){
+		
+	}
+	
+	public void bullet(){
+		
+	}
 }

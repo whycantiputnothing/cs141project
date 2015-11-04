@@ -9,13 +9,7 @@ public class GameEngine {
 		return true;
 	}
 	
-	public void spyShoot(){
-		
-	}
 	
-	public void spyLook(){
-		
-	}
 	
 	public void checkLocation(){
 		
