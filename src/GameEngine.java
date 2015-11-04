@@ -1,11 +1,8 @@
 
 public class GameEngine {
     
-	public GameEngine() {
-	}
-	
-	public void isAlive(){
-		
+	private boolean isAlive(){
+		return true;
 	}
 	
 	public void spyShoot(){
@@ -16,18 +13,33 @@ public class GameEngine {
 		
 	}
 	
-	public void ninjaCheckAdjacent(){
+	public void checkLocation(){
 		
 	}
 	
-	public void ninjaStab(){
+
+	private static int numberOfLives(){
+		int lives = 0;
+		return lives;
+	}
+	
+	public void deadReset(){
 		
+	}
+	
+	public void invincibility(){
+	
+	}
+	
+	private static int ammoCount(){
+		int ammo = 0;
+		return ammo;
 	}
 	
 	public void moveSpace(){
 		
 	}
-	
+
 	public void quitGame(){
 		
 	}
@@ -37,10 +49,6 @@ public class GameEngine {
 	}
 	
 	public void loadGame(){
-		
-	}
-	
-	public void gameWon(){
 		
 	}
 	
