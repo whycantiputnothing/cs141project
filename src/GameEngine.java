@@ -1,6 +1,8 @@
 
 public class GameEngine {
     
+	private Grid gameGrid = new Grid();
+	
 	private boolean isAlive(){
 		return true;
 	}
