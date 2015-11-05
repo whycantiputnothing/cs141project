@@ -12,5 +12,9 @@ public class Ninja extends BoardPiece{
 		super(s);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public void assisinate(){
+		
+	}
 
 }
