@@ -22,4 +22,15 @@ public class Spy extends BoardPiece {
 		return numberOfLives;
 	}
 
+	public void spyShoot(){
+		
+	}
+	
+	public void spyLook(){
+		
+	}
+	
+	public void getPowerup(){
+		
+	}
 }

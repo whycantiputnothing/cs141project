@@ -6,9 +6,6 @@ public class UI {
 
 	Scanner in;
 	
-	public UserInterface(GameEngine game) {
-	}
-
 	private void gameLoop(){
 		
 	}
