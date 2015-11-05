@@ -1,7 +1,5 @@
 
 public class GameEngine {
-   
-	private Grid gameGrid = new Grid();
 	
     	private int numberOfMoves;
     	
@@ -15,7 +13,7 @@ public class GameEngine {
 		
 	}
 	
-	public void deadReset(){
+	public void respawn(){
 		
 	}
 	
