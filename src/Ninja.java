@@ -8,8 +8,8 @@
  */
 public class Ninja extends BoardPiece{
 
-	public Ninja(String s) {
-		super(s);
+	public Ninja() {
+		super("N");
 		// TODO Auto-generated constructor stub
 	}
 	

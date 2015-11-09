@@ -4,8 +4,8 @@ public class Spy extends BoardPiece {
 	
 	private int numberOfLives;
 
-	public Spy(String s) {
-		super(s);
+	public Spy() {
+		super("S");
 		super.setIsVisible(true);
 		// TODO Auto-generated constructor stub
 	}
