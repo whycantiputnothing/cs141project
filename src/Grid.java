@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +10,7 @@ public class Grid {
 	public void instantiateGrid() {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				grid[i][j] = new BoardPiece("E");
+				grid[i][j] = new BoardPiece(" ");
 			}
 		}
 		grid[6][6] = new PowerUps("B");
@@ -38,18 +39,39 @@ public class Grid {
 		BoardPiece[] pieces = { grid[6][6], grid[6][7], grid[6][8], grid[7][0], grid[7][1], grid[7][2], grid[7][3],
 				grid[7][4], grid[7][5], grid[7][7], grid[7][8], grid[8][0], grid[8][1], grid[8][2], grid[8][3],
 				grid[8][4], grid[8][5], grid[8][6] };
-		List<BoardPiece> somePieces = Arrays.asList(pieces);
+		List<BoardPiece> somePieces = new ArrayList<BoardPiece>();
+		somePieces = Arrays.asList(pieces);
 		Collections.shuffle(somePieces);
 		int count = 0;
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
+				if (count < somePieces.size()){
 				grid[i][j] = somePieces.get(count);
 				count++;
+				}
 			}
 		}
 	}
+	
+	public void putSpyAtStart(){
+		BoardPiece a = grid[8][0];
+		int x = 0;
+		int y = 0;
+		for(int i = 0; i < grid.length; i++){
+			for (int j = 0; j < grid[i].length; j++){
+				if (grid[i][j].getPieceType().equals("S")) {
+						x = i;
+						y = j;
+				}
+			}
+		}
+		BoardPiece b = grid[x][y];
+		grid[8][0] = b;
+		grid[x][y] = a;
+	}
 
-	public void getBoardPieceAt() {
+	public BoardPiece getBoardPieceAt(int x, int y) {
+		return grid[x][y];
 	}
 
 	public String toString() {
