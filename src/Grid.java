@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Grid {
 
@@ -46,8 +43,8 @@ public class Grid {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				if (count < somePieces.size()){
-				grid[i][j] = somePieces.get(count);
-				count++;
+					grid[i][j] = somePieces.get(count);
+					count++;
 				}
 			}
 		}
