@@ -5,7 +5,8 @@ public class Main {
     	Grid g = new Grid();
     	g.instantiateGrid();
     	g.shufflePieces();
-    	String str = g.toString();
-    	System.out.println(str);
+    	System.out.println(g.toString());
+    	g.putSpyAtStart();
+    	System.out.println(g.toString());
 	}
 }
