@@ -8,6 +8,7 @@ public class Main {
     	System.out.println(g.toString());
     	g.putSpyAtStart();
     	g.placeRooms();
+    	g.checkNinja();
     	System.out.println(g.toString());
 	}
 }

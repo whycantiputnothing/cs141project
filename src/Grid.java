@@ -71,8 +71,6 @@ public class Grid {
 
 	public void placeRooms() {
 		int count = 0;
-		int a = 2;
-		int b = 2;
 		
 		int[] rows = new int[9];
 		int[] cols = new int[9];
@@ -94,6 +92,39 @@ public class Grid {
 			grid[rows[i]][cols[i]] = x;
 			grid[roomPostitionRows[i]][roomPostitionCols[i]] = z;
 		}
+	}
+	
+	public void checkNinja(){
+		boolean tooClose;
+		int x = 0;
+		int y = 0;
+		int q = 0;
+		int w = 0;
+		
+		for(int i = 5; i < grid.length; i++){
+			for(int j = 0; j < 4; j++){
+				if(grid[i][j].equals("N")){
+					x = i;
+					y = j;
+					tooClose = true;
+					}
+				}
+			}
+		if(tooClose){
+			for(int i = 0; i < grid.length; i++){
+				for(int j = 0; j < grid[i].length; j++){
+					if(grid[i][j].equals(" ")){
+						q = i;
+						w = j;
+					}
+				}
+			}
+			BoardPiece a = grid[x][y];
+			BoardPiece b = grid[q][w];
+			grid[x][y] = b;
+			grid[q][w] = a;
+		}
+			
 	}
 
 	public BoardPiece getBoardPieceAt(int x, int y) {
