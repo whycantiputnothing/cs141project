@@ -33,11 +33,13 @@ public class Grid {
 	}
 
 	public void shufflePieces() {
-		BoardPiece[] pieces = { grid[6][6], grid[6][7], grid[6][8], grid[7][0], grid[7][1], grid[7][2], grid[7][3],
-				grid[7][4], grid[7][5], grid[7][7], grid[7][8], grid[8][0], grid[8][1], grid[8][2], grid[8][3],
-				grid[8][4], grid[8][5], grid[8][6] };
 		List<BoardPiece> somePieces = new ArrayList<BoardPiece>();
-		somePieces = Arrays.asList(pieces);
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				somePieces.add(grid[i][j]);
+			}
+		}
+		
 		Collections.shuffle(somePieces);
 		int count = 0;
 		for (int i = 0; i < grid.length; i++) {
