@@ -78,7 +78,7 @@ public class Grid {
 		int[] roomPostitionCols = { 2, 4, 6, 2, 4, 6, 2, 4, 6};
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].getPieceType().equals("U")) {
+				if (grid[i][j].getPieceType().equals("U")||grid[i][j].getPieceType().equals("X")) {
 					rows[count] = i;
 					cols[count] = j;
 					count++;
@@ -93,7 +93,7 @@ public class Grid {
 			grid[roomPostitionRows[i]][roomPostitionCols[i]] = z;
 		}
 	}
-	
+	/*
 	public void checkNinja(){
 		boolean tooClose;
 		int x = 0;
@@ -126,7 +126,7 @@ public class Grid {
 		}
 			
 	}
-
+*/
 	public BoardPiece getBoardPieceAt(int x, int y) {
 		return grid[x][y];
 	}

@@ -12,4 +12,11 @@ public class Room extends BoardPiece{
 	public boolean getHasBriefcase(){
 		return hasBriefcase;
 	}
+	
+	public String getPieceType(){
+		if(hasBriefcase)
+			return "X";
+		else
+			return super.getPieceType();
+	}
 }
