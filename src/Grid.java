@@ -39,28 +39,28 @@ public class Grid {
 				somePieces.add(grid[i][j]);
 			}
 		}
-		
+
 		Collections.shuffle(somePieces);
 		int count = 0;
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				if (count < somePieces.size()){
+				if (count < somePieces.size()) {
 					grid[i][j] = somePieces.get(count);
 					count++;
 				}
 			}
 		}
 	}
-	
-	public void putSpyAtStart(){
+
+	public void putSpyAtStart() {
 		BoardPiece a = grid[8][0];
 		int x = 0;
 		int y = 0;
-		for(int i = 0; i < grid.length; i++){
-			for (int j = 0; j < grid[i].length; j++){
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
 				if (grid[i][j].getPieceType().equals("S")) {
-						x = i;
-						y = j;
+					x = i;
+					y = j;
 				}
 			}
 		}
@@ -68,33 +68,31 @@ public class Grid {
 		grid[8][0] = b;
 		grid[x][y] = a;
 	}
-	
-	public void placeRooms(){
+
+	public void placeRooms() {
 		int count = 0;
-		int x = 0;
-		int y = 0;
 		int a = 2;
 		int b = 2;
-		while(count < 9){
-			for(int i = 0; i < grid.length; i++){
-				for (int j = 0; j < grid[i].length; j++){
-					if (grid[i][j].getPieceType().equals("U")) {
-							x = i;
-							y = j;
-					}
+		
+		int[] rows = new int[9];
+		int[] cols = new int[9];
+		int[] roomPostitionRows = { 2, 2, 2, 4, 4, 4, 6, 6, 6};
+		int[] roomPostitionCols = { 2, 4, 6, 2, 4, 6, 2, 4, 6};
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j].getPieceType().equals("U")) {
+					rows[count] = i;
+					cols[count] = j;
+					count++;
 				}
 			}
-			BoardPiece u = grid[a][b];
-			BoardPiece m = grid[x][y];
-			grid[a][b] = m;
-			grid[x][y] = u;
-			count++;
-			b += 2;
-			if (b == 6){
-				b = 2;
-				if (!(a == 6))
-				a+= 2;
-			}
+		}
+		
+		for (int i = 0; i < 9; i++) {
+			BoardPiece x = grid[roomPostitionRows[i]][roomPostitionCols[i]];
+			BoardPiece z = grid[rows[i]][cols[i]];
+			grid[rows[i]][cols[i]] = x;
+			grid[roomPostitionRows[i]][roomPostitionCols[i]] = z;
 		}
 	}
 
