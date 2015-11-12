@@ -68,6 +68,35 @@ public class Grid {
 		grid[8][0] = b;
 		grid[x][y] = a;
 	}
+	
+	public void placeRooms(){
+		int count = 0;
+		int x = 0;
+		int y = 0;
+		int a = 2;
+		int b = 2;
+		while(count < 9){
+			for(int i = 0; i < grid.length; i++){
+				for (int j = 0; j < grid[i].length; j++){
+					if (grid[i][j].getPieceType().equals("U")) {
+							x = i;
+							y = j;
+					}
+				}
+			}
+			BoardPiece u = grid[a][b];
+			BoardPiece m = grid[x][y];
+			grid[a][b] = m;
+			grid[x][y] = u;
+			count++;
+			b += 2;
+			if (b == 6){
+				b = 2;
+				if (!(a == 6))
+				a+= 2;
+			}
+		}
+	}
 
 	public BoardPiece getBoardPieceAt(int x, int y) {
 		return grid[x][y];

@@ -4,7 +4,7 @@ public class Room extends BoardPiece{
 	private boolean hasBriefcase;
 	
 	public Room(boolean b) {
-		super("R");
+		super("U");
 		hasBriefcase = b;
 		// TODO Auto-generated constructor stub
 	}

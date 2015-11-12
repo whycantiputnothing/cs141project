@@ -7,6 +7,7 @@ public class Main {
     	g.shufflePieces();
     	System.out.println(g.toString());
     	g.putSpyAtStart();
+    	g.placeRooms();
     	System.out.println(g.toString());
 	}
 }
