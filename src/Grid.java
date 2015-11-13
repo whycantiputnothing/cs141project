@@ -71,62 +71,71 @@ public class Grid {
 
 	public void placeRooms() {
 		int count = 0;
-		
-		int[] rows = new int[9];
-		int[] cols = new int[9];
-		int[] roomPostitionRows = { 2, 2, 2, 4, 4, 4, 6, 6, 6};
-		int[] roomPostitionCols = { 2, 4, 6, 2, 4, 6, 2, 4, 6};
+		List<Integer> rows = new ArrayList<Integer>();
+		List<Integer> cols = new ArrayList<Integer>();
+		List<Integer> roomPositionRows = new ArrayList<Integer>();
+		int[] roomPostitionRows1 = { 2, 2, 2, 4, 4, 4, 6, 6, 6 };
+		while (count < 9) {
+			roomPositionRows.add(roomPostitionRows1[count]);
+			count++;
+		}
+		count = 0;
+		List<Integer> roomPositionCols = new ArrayList<Integer>();
+		int[] roomPostitionCols1 = { 2, 4, 6, 2, 4, 6, 2, 4, 6 };
+		while (count < 9) {
+			roomPositionCols.add(roomPostitionCols1[count]);
+			count++;
+		}
+
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].getPieceType().equals("U")||grid[i][j].getPieceType().equals("X")) {
-					rows[count] = i;
-					cols[count] = j;
-					count++;
+				if (grid[i][j].getPieceType().equals("U") || grid[i][j].getPieceType().equals("X")) {
+					rows.add(i);
+					cols.add(j);
 				}
 			}
 		}
-		
-		for (int i = 0; i < 9; i++) {
-			BoardPiece x = grid[roomPostitionRows[i]][roomPostitionCols[i]];
-			BoardPiece z = grid[rows[i]][cols[i]];
-			grid[rows[i]][cols[i]] = x;
-			grid[roomPostitionRows[i]][roomPostitionCols[i]] = z;
+
+		for (int i = 0; i < rows.size(); i++) {
+			for (int j = 0; j < cols.size(); j++) {
+				int a = rows.get(i);
+				int b = cols.get(i);
+				int c = roomPositionRows.get(j);
+				int d = roomPositionCols.get(j);
+				if (a == c && b == d) {
+					rows.remove(i);
+					cols.remove(i);
+					roomPositionRows.remove(j);
+					roomPositionCols.remove(j);
+				}
+			}
+		}
+
+		for (int i = 0; i < rows.size(); i++) {
+			BoardPiece x = grid[roomPositionRows.get(i)][roomPositionCols.get(i)];
+			BoardPiece z = grid[rows.get(i)][cols.get(i)];
+			grid[rows.get(i)][cols.get(i)] = x;
+			grid[roomPositionRows.get(i)][roomPositionCols.get(i)] = z;
 		}
 	}
-	/*
-	public void checkNinja(){
-		boolean tooClose;
-		int x = 0;
-		int y = 0;
-		int q = 0;
-		int w = 0;
-		
-		for(int i = 5; i < grid.length; i++){
-			for(int j = 0; j < 4; j++){
-				if(grid[i][j].equals("N")){
-					x = i;
-					y = j;
-					tooClose = true;
+
+	public void checkNinjaPosition() {
+		for (int i = 5; i < grid.length; i++) {
+			for (int j = 0; j < (i - 4); j++) {
+				if (grid[i][j].getPieceType().equals("N")) {
+					for (int k = 0; k < grid.length; k++) {
+						if (grid[i][k].getPieceType().equals(" ") && (k > j)) {
+							BoardPiece a = grid[i][j];
+							BoardPiece b = grid[i][k];
+							grid[i][j] = b;
+							grid[i][k] = a;
+						}
 					}
 				}
 			}
-		if(tooClose){
-			for(int i = 0; i < grid.length; i++){
-				for(int j = 0; j < grid[i].length; j++){
-					if(grid[i][j].equals(" ")){
-						q = i;
-						w = j;
-					}
-				}
-			}
-			BoardPiece a = grid[x][y];
-			BoardPiece b = grid[q][w];
-			grid[x][y] = b;
-			grid[q][w] = a;
 		}
-			
 	}
-*/
+
 	public BoardPiece getBoardPieceAt(int x, int y) {
 		return grid[x][y];
 	}
