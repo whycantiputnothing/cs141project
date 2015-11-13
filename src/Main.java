@@ -10,5 +10,7 @@ public class Main {
     	g.placeRooms();
     	g.checkNinjaPosition();
     	System.out.println(g.toString());
+    	g.debug(true);
+    	System.out.println(g.toString());
 	}
 }
