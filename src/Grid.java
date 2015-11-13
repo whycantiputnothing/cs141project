@@ -123,8 +123,8 @@ public class Grid {
 		for (int i = 5; i < grid.length; i++) {
 			for (int j = 0; j < (i - 4); j++) {
 				if (grid[i][j].getPieceType().equals("N")) {
-					for (int k = 0; k < grid.length; k++) {
-						if (grid[i][k].getPieceType().equals(" ") && (k > j)) {
+					for (int k = j; k < grid.length; k++) {
+						if (grid[i][k].getPieceType().equals(" ")) {
 							BoardPiece a = grid[i][j];
 							BoardPiece b = grid[i][k];
 							grid[i][j] = b;
