@@ -140,11 +140,22 @@ public class Grid {
 		return grid[x][y];
 	}
 
+	public void debug(boolean a) {
+		for (BoardPiece[] b : grid) {
+			for (BoardPiece p : b) {
+				p.setIsVisible(a);
+			}
+		}
+	}
+
 	public String toString() {
 		String printPosition = "";
 		for (BoardPiece[] b : grid) {
 			for (BoardPiece p : b) {
-				printPosition += "[" + p.getPieceType() + "]";
+				if (p.getIsVisible()) {
+					printPosition += "[" + p.getPieceType() + "]";
+				} else
+					printPosition += "[ ]";
 			}
 			printPosition += "\n";
 
