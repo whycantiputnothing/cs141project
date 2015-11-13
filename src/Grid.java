@@ -74,14 +74,14 @@ public class Grid {
 		List<Integer> rows = new ArrayList<Integer>();
 		List<Integer> cols = new ArrayList<Integer>();
 		List<Integer> roomPositionRows = new ArrayList<Integer>();
-		int[] roomPostitionRows1 = { 2, 2, 2, 4, 4, 4, 6, 6, 6 };
+		int[] roomPostitionRows1 = { 1, 1, 1, 4, 4, 4, 7, 7, 7 };
 		while (count < 9) {
 			roomPositionRows.add(roomPostitionRows1[count]);
 			count++;
 		}
 		count = 0;
 		List<Integer> roomPositionCols = new ArrayList<Integer>();
-		int[] roomPostitionCols1 = { 2, 4, 6, 2, 4, 6, 2, 4, 6 };
+		int[] roomPostitionCols1 = { 1, 4, 7, 1, 4, 7, 1, 4, 7 };
 		while (count < 9) {
 			roomPositionCols.add(roomPostitionCols1[count]);
 			count++;
