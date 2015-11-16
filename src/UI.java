@@ -14,6 +14,7 @@ public class UI {
 		int option;
 		System.out.println("Please choose an option:\n" + "\t1. New Game\n" + "\t2. Load Game\n" + "\t3. Quit");
 		option = in.nextInt();
+		in.nextLine();
 		return option;
 	}
 	
