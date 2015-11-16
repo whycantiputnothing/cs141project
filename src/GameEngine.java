@@ -3,14 +3,45 @@ public class GameEngine {
 	
     private int numberOfMoves;
     	
-    private Grid gameBoard = new Grid();
+    private Grid grid = new Grid();
     	
-	private boolean isAlive(){
+	
+	public void printGrid(){
+		grid.instantiateGrid();
+		grid.shufflePieces();
+		grid.putSpyAtStart();
+		grid.placeRooms();
+		grid.checkNinjaPosition();
+		grid.debug(true);
+		System.out.println(grid.toString());
+		
+	}
+	
+	private boolean isAlive(int lives){	
+		if(lives == 0){
+			return false;
+		}
 		return true;
 	}
 	
-	public void returnLocationOfSpy(){
-		
+	public void lookAtSpaceU(int x, int y){
+		grid.getBoardPieceAt(x - 1, y).setIsVisible(true);
+	}
+	
+	public void lookAtSpaceD(int x, int y){
+		grid.getBoardPieceAt(x + 1, y).setIsVisible(true);
+	}
+	
+	public void lookAtSpaceL(int x, int y){
+		grid.getBoardPieceAt(x, y - 1).setIsVisible(true);
+	}
+	
+	public void lookAtSpaceR(int x, int y){
+		grid.getBoardPieceAt(x, y + 1).setIsVisible(true);
+	}
+	
+	public BoardPiece returnLocationOfSpy(int x, int y){
+		return grid.getBoardPieceAt(x, y);
 	}
 	
 	public void respawn(){
@@ -39,5 +70,10 @@ public class GameEngine {
 	
 	public void reset(){
 		
+	}
+
+	public boolean gameWon() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
