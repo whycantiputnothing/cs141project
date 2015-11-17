@@ -52,23 +52,24 @@ public class Grid {
 		}
 	}
 
-	public void putSpyAtStart() {
-		BoardPiece a = grid[8][0];
+	
+	public int[] findSpy() {
+		int[] spyAt = {0,0};
+		
 		int x = 0;
 		int y = 0;
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				if (grid[i][j].getPieceType().equals("S")) {
-					x = i;
-					y = j;
+					spyAt[0] = i;
+					spyAt[1] = j;
 				}
 			}
 		}
-		BoardPiece b = grid[x][y];
-		grid[8][0] = b;
-		grid[x][y] = a;
+		return spyAt;
 	}
-
+	
+	
 	public void placeRooms() {
 		int count = 0;
 		List<Integer> rows = new ArrayList<Integer>();
