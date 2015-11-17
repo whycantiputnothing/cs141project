@@ -52,8 +52,8 @@ public class GameEngine {
 	
 	}
 	
-	public void moveSpace(){
-		
+	public void swap(int w, int x, int y, int z){
+		grid.swapSpace(w, x, y, z);
 	}
 
 	public void quitGame(){
