@@ -9,7 +9,7 @@ public class GameEngine {
 	public void printGrid(){
 		grid.instantiateGrid();
 		grid.shufflePieces();
-		grid.putSpyAtStart();
+		grid.findSpy();
 		grid.placeRooms();
 		grid.checkNinjaPosition();
 		grid.debug(true);
