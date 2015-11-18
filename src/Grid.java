@@ -30,7 +30,26 @@ public class Grid {
 		grid[8][4] = new Room(false);
 		grid[8][5] = new Room(false);
 		grid[8][6] = new Room(false);
+		shufflePieces();
+		//swapSpace(findSpy()[0], findSpy()[1], 8, 0);
+		placeSpyAtStart();
+		placeRooms();
+		checkNinjaPosition();
+		
 
+	}
+	
+	public int[] findBriefCase() {
+		int[] findBriefCase = new int[2];
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j].getPieceType().equals("X")) {
+					findBriefCase[0] = i;
+					findBriefCase[1] = j;
+				}
+			}
+		}
+		return findBriefCase;
 	}
 
 	public void shufflePieces() {
@@ -73,6 +92,14 @@ public class Grid {
 		int moveDir = rand.nextInt(3);
 		System.out.println(moveDir);
 		return moveDir;
+}
+	public void placeSpyAtStart(){
+		BoardPiece a = grid[8][0];
+		int c = findSpy()[0];
+		int d = findSpy()[1];
+		BoardPiece b = grid[c][d];
+		grid[8][0] = b;
+		grid[c][d] = a;
 	}
 	
 	
@@ -143,15 +170,35 @@ public class Grid {
 		}
 	}
 
+	public int[] findNinja(){
+		int[] ninjaLocations = new int[12];
+		int count = 0;
+		for (int i = 0; i < grid.length; i++){
+			for (int j = 0; j <grid[i].length; j++){
+				if (grid[i][j].getPieceType().equals("N")){
+					ninjaLocations[count] = i;
+					count++;
+					ninjaLocations[count] = j;
+					count++;
+					
+				}
+			}
+		}
+		
+		for(int i = 0; i <ninjaLocations.length; i++){
+			System.out.print(ninjaLocations[i]);
+		}
+			
+		return ninjaLocations;	
+	}
+	
 	public BoardPiece getBoardPieceAt(int x, int y) {
 		return grid[x][y];
 	}
 	
-	public void swapSpace(int w, int x, int y, int z){
-		BoardPiece a = grid[w][x];
-		BoardPiece b = grid[y][z];
-		grid[w][x] = b;
-		grid[y][z] = a;
+	public void setBoardPieceAt(int x, int y, BoardPiece a) {
+		grid[x][y] = a;
+		
 	}
 
 	public void debug(boolean a) {

@@ -7,14 +7,16 @@ public class GameEngine {
     	
 	
 	public void printGrid(){
-		grid.instantiateGrid();
-		grid.shufflePieces();
-		grid.findSpy();
-		grid.placeRooms();
-		grid.checkNinjaPosition();
-		grid.debug(true);
 		System.out.println(grid.toString());
 		
+	}
+	
+	public void radar() {
+		
+	}
+	
+	public void makeGrid(){
+		grid.instantiateGrid();
 	}
 	
 	private boolean isAlive(int lives){	
@@ -22,6 +24,25 @@ public class GameEngine {
 			return false;
 		}
 		return true;
+	}
+	
+	public void move(String s){
+		if (s.toLowerCase().equals("w")){
+			
+			swap(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0] - 1, grid.findSpy()[1]);
+		}
+		else if (s.toLowerCase().equals("a")){
+			
+			swap(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0], grid.findSpy()[1] - 1);
+		}
+		else if (s.toLowerCase().equals("s")){
+			
+			swap(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0] + 1, grid.findSpy()[1]);
+		}
+		else if (s.toLowerCase().equals("d")){
+			
+			swap(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0], grid.findSpy()[1] + 1);
+		}
 	}
 	
 	public void lookAtSpaceU(int x, int y){
@@ -53,7 +74,10 @@ public class GameEngine {
 	}
 	
 	public void swap(int w, int x, int y, int z){
-		grid.swapSpace(w, x, y, z);
+			BoardPiece a = grid.getBoardPieceAt(w, x);
+			BoardPiece b = grid.getBoardPieceAt(y, z);
+			grid.setBoardPieceAt(w, x, b);
+			grid.setBoardPieceAt(y, z, a);
 	}
 
 	public void quitGame(){
