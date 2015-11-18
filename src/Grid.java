@@ -36,6 +36,19 @@ public class Grid {
 		
 
 	}
+	
+	public int[] findBriefCase() {
+		int[] findBriefCase = new int[2];
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j].getPieceType().equals("X")) {
+					findBriefCase[0] = i;
+					findBriefCase[1] = j;
+				}
+			}
+		}
+		return findBriefCase;
+	}
 
 	public void shufflePieces() {
 		List<BoardPiece> somePieces = new ArrayList<BoardPiece>();
@@ -142,6 +155,11 @@ public class Grid {
 
 	public BoardPiece getBoardPieceAt(int x, int y) {
 		return grid[x][y];
+	}
+	
+	public void setBoardPieceAt(int x, int y, BoardPiece a) {
+		grid[x][y] = a;
+		
 	}
 	
 	public void swapSpace(int w, int x, int y, int z){

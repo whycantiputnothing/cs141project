@@ -11,6 +11,10 @@ public class GameEngine {
 		
 	}
 	
+	public void radar() {
+		
+	}
+	
 	public void makeGrid(){
 		grid.instantiateGrid();
 	}
@@ -70,7 +74,10 @@ public class GameEngine {
 	}
 	
 	public void swap(int w, int x, int y, int z){
-		grid.swapSpace(w, x, y, z);
+			BoardPiece a = grid.getBoardPieceAt(w, x);
+			BoardPiece b = grid.getBoardPieceAt(y, z);
+			grid.setBoardPieceAt(w, x, a);
+			grid.setBoardPieceAt(y, z, b);
 	}
 
 	public void quitGame(){
