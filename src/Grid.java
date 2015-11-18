@@ -87,10 +87,9 @@ public class Grid {
 		return spyAt;
 	}
 	
-	public int moveNinja(){
+	public int randNinjaMove(){
 		Random rand = new Random();
 		int moveDir = rand.nextInt(3);
-		System.out.println(moveDir);
 		return moveDir;
 }
 	public void placeSpyAtStart(){
@@ -185,9 +184,6 @@ public class Grid {
 			}
 		}
 		
-		for(int i = 0; i <ninjaLocations.length; i++){
-			System.out.print(ninjaLocations[i]);
-		}
 			
 		return ninjaLocations;	
 	}
