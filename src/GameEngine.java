@@ -27,6 +27,18 @@ public class GameEngine {
 			
 			grid.swapSpace(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0] - 1, grid.findSpy()[1]);
 		}
+		else if (s.toLowerCase().equals("a")){
+			
+			grid.swapSpace(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0], grid.findSpy()[1] - 1);
+		}
+		else if (s.toLowerCase().equals("s")){
+			
+			grid.swapSpace(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0] + 1, grid.findSpy()[1]);
+		}
+		else if (s.toLowerCase().equals("d")){
+			
+			grid.swapSpace(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0], grid.findSpy()[1] + 1);
+		}
 	}
 	
 	public void lookAtSpaceU(int x, int y){
