@@ -163,6 +163,28 @@ public class Grid {
 		}
 	}
 
+	public int[] findNinja(){
+		int[] ninjaLocations = new int[12];
+		int count = 0;
+		for (int i = 0; i < grid.length; i++){
+			for (int j = 0; j <grid[i].length; j++){
+				if (grid[i][j].getPieceType().equals("N")){
+					ninjaLocations[count] = i;
+					count++;
+					ninjaLocations[count] = j;
+					count++;
+					
+				}
+			}
+		}
+		
+		for(int i = 0; i <ninjaLocations.length; i++){
+			System.out.print(ninjaLocations[i]);
+		}
+			
+		return ninjaLocations;	
+	}
+	
 	public BoardPiece getBoardPieceAt(int x, int y) {
 		return grid[x][y];
 	}
