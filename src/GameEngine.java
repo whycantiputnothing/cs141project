@@ -65,7 +65,7 @@ public class GameEngine {
 		int[] ninjaPos = grid.findNinja();
 		boolean notAvailable = false;
 
-		for (int i = 0; i <= ninjaPos.length; i += 2) {
+		for (int i = 0; i < ninjaPos.length; i += 2) {
 			do {
 				
 				int moveDir = grid.randNinjaMove();
@@ -140,6 +140,10 @@ public class GameEngine {
 
 	public void reset() {
 
+	}
+	
+	public void debug(boolean b){
+		grid.debug(b);
 	}
 
 	public boolean gameWon() {

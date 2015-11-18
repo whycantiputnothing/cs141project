@@ -5,12 +5,13 @@ public class Main {
     	Grid g = new Grid();
     	UI ui = new UI(new GameEngine());
     	GameEngine ge = new GameEngine();
-    	g.instantiateGrid();
-    	g.debug(true);
-    	
-    	System.out.println(g.toString());
+    	//g.instantiateGrid();
+    	//g.debug(true);
+    	ge.makeGrid();
+    	ge.debug(true);
+    	ge.printGrid();
     	ge.moveNinja();
-    	System.out.println(g.toString());
+    	ge.printGrid();
     	
     	//g.shufflePieces();
     	//System.out.println(g.toString());
