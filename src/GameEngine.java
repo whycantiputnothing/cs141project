@@ -7,14 +7,12 @@ public class GameEngine {
     	
 	
 	public void printGrid(){
-		grid.instantiateGrid();
-		grid.shufflePieces();
-		grid.findSpy();
-		grid.placeRooms();
-		grid.checkNinjaPosition();
-		grid.debug(true);
 		System.out.println(grid.toString());
 		
+	}
+	
+	public void makeGrid(){
+		grid.instantiateGrid();
 	}
 	
 	private boolean isAlive(int lives){	
@@ -22,6 +20,13 @@ public class GameEngine {
 			return false;
 		}
 		return true;
+	}
+	
+	public void move(String s){
+		if (s.toLowerCase().equals("w")){
+			
+			grid.swapSpace(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0] - 1, grid.findSpy()[1]);
+		}
 	}
 	
 	public void lookAtSpaceU(int x, int y){

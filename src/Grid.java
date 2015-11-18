@@ -29,6 +29,11 @@ public class Grid {
 		grid[8][4] = new Room(false);
 		grid[8][5] = new Room(false);
 		grid[8][6] = new Room(false);
+		shufflePieces();
+		swapSpace(findSpy()[0], findSpy()[1], 8, 0);
+		placeRooms();
+		checkNinjaPosition();
+		
 
 	}
 
