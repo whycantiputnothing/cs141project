@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.Random;
 
 public class Grid {
 
@@ -65,6 +66,13 @@ public class Grid {
 			}
 		}
 		return spyAt;
+	}
+	
+	public int moveNinja(){
+		Random rand = new Random();
+		int moveDir = rand.nextInt(3);
+		System.out.println(moveDir);
+		return moveDir;
 	}
 	
 	
