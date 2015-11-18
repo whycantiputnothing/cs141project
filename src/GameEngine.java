@@ -29,19 +29,19 @@ public class GameEngine {
 	public void move(String s){
 		if (s.toLowerCase().equals("w")){
 			
-			grid.swapSpace(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0] - 1, grid.findSpy()[1]);
+			swap(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0] - 1, grid.findSpy()[1]);
 		}
 		else if (s.toLowerCase().equals("a")){
 			
-			grid.swapSpace(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0], grid.findSpy()[1] - 1);
+			swap(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0], grid.findSpy()[1] - 1);
 		}
 		else if (s.toLowerCase().equals("s")){
 			
-			grid.swapSpace(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0] + 1, grid.findSpy()[1]);
+			swap(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0] + 1, grid.findSpy()[1]);
 		}
 		else if (s.toLowerCase().equals("d")){
 			
-			grid.swapSpace(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0], grid.findSpy()[1] + 1);
+			swap(grid.findSpy()[0], grid.findSpy()[1],grid.findSpy()[0], grid.findSpy()[1] + 1);
 		}
 	}
 	
@@ -76,8 +76,8 @@ public class GameEngine {
 	public void swap(int w, int x, int y, int z){
 			BoardPiece a = grid.getBoardPieceAt(w, x);
 			BoardPiece b = grid.getBoardPieceAt(y, z);
-			grid.setBoardPieceAt(w, x, a);
-			grid.setBoardPieceAt(y, z, b);
+			grid.setBoardPieceAt(w, x, b);
+			grid.setBoardPieceAt(y, z, a);
 	}
 
 	public void quitGame(){

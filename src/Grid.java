@@ -30,7 +30,8 @@ public class Grid {
 		grid[8][5] = new Room(false);
 		grid[8][6] = new Room(false);
 		shufflePieces();
-		swapSpace(findSpy()[0], findSpy()[1], 8, 0);
+		//swapSpace(findSpy()[0], findSpy()[1], 8, 0);
+		placeSpyAtStart();
 		placeRooms();
 		checkNinjaPosition();
 		
@@ -83,6 +84,15 @@ public class Grid {
 			}
 		}
 		return spyAt;
+	}
+	
+	public void placeSpyAtStart(){
+		BoardPiece a = grid[8][0];
+		int c = findSpy()[0];
+		int d = findSpy()[1];
+		BoardPiece b = grid[c][d];
+		grid[8][0] = b;
+		grid[c][d] = a;
 	}
 	
 	
