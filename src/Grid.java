@@ -161,13 +161,6 @@ public class Grid {
 		grid[x][y] = a;
 		
 	}
-	
-	public void swapSpace(int w, int x, int y, int z){
-		BoardPiece a = grid[w][x];
-		BoardPiece b = grid[y][z];
-		grid[w][x] = b;
-		grid[y][z] = a;
-	}
 
 	public void debug(boolean a) {
 		for (BoardPiece[] b : grid) {

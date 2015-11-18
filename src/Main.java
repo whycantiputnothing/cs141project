@@ -13,5 +13,11 @@ public class Main {
     	ge.printGrid();
     	ge.move("w");
     	ge.printGrid();
+    	ge.move("d");
+    	ge.printGrid();
+    	ge.move("s");
+    	ge.printGrid();
+    	ge.move("a");
+    	ge.printGrid();
 	}
 }
