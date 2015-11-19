@@ -40,21 +40,71 @@ public class GameEngine {
 			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0], grid.findSpy()[1] + 1);
 		}
 	}
-
-	public void lookAtSpaceU(int x, int y) {
-		grid.getBoardPieceAt(x - 1, y).setIsVisible(true);
+	
+	public void Shoot(String s) {
+		BoardPiece a = new BoardPiece(" ");
+		int row = grid.findSpy()[0];
+		int col = grid.findSpy()[1];
+		int count = 0;
+		
+		if (s.toLowerCase().equals("a")) {
+			for (int i = col; i >= 0; i--) {
+				if ((grid.getBoardPieceAt(row, i).getPieceType().equals("N")) && (count < 1)) {
+					grid.setBoardPieceAt(row, i, a);
+					count++;
+				}
+			}
+		}
+		else if (s.toLowerCase().equals("w") ) {
+			for (int i = row; i >= 0; i--) {
+				if ((grid.getBoardPieceAt(i, col).getPieceType().equals("N")) && (count < 1)) {
+					grid.setBoardPieceAt(i, col, a);
+					count++;
+				}
+			}	
+		}
+		else if (s.toLowerCase().equals("d") ) {
+			for (int i = col; i < 9 ; i++) {
+				if ((grid.getBoardPieceAt(row, i).getPieceType().equals("N")) && (count < 1)) {
+					grid.setBoardPieceAt(row, i, a);
+					count++;
+				}
+			}	
+		}
+		else if (s.toLowerCase().equals("s") ) {
+			for (int i = row; i < 9; i++) {
+				if ((grid.getBoardPieceAt(i, col).getPieceType().equals("N")) && (count < 1)) {
+					grid.setBoardPieceAt(i, col, a);
+					count++;
+				}
+			}	
+		}
+		
+		int ammo = ((Spy)(grid.getBoardPieceAt(row, col))).getAmmoCount();
+		((Spy)(grid.getBoardPieceAt(row, col))).setAmmoCount(ammo - 1);
 	}
-
-	public void lookAtSpaceD(int x, int y) {
-		grid.getBoardPieceAt(x + 1, y).setIsVisible(true);
-	}
-
-	public void lookAtSpaceL(int x, int y) {
-		grid.getBoardPieceAt(x, y - 1).setIsVisible(true);
-	}
-
-	public void lookAtSpaceR(int x, int y) {
-		grid.getBoardPieceAt(x, y + 1).setIsVisible(true);
+		
+	public void look(String direction){
+		int i = grid.findSpy()[0];
+		int j = grid.findSpy()[1];
+		BoardPiece a;
+		
+		if (direction.toLowerCase().equals("w")){
+			a = grid.getBoardPieceAt(i - 2, j); 
+			a.setIsVisible(true);
+		}
+		else if (direction.toLowerCase().equals("a")){
+			a = grid.getBoardPieceAt(i, j - 2); 
+			a.setIsVisible(true);
+		}
+		else if (direction.toLowerCase().equals("s")){
+			a = grid.getBoardPieceAt(i + 2, j); 
+			a.setIsVisible(true);
+		}
+		else if (direction.toLowerCase().equals("d")){
+			a = grid.getBoardPieceAt(i, j + 2); 
+			a.setIsVisible(true);
+		}
 	}
 
 	public BoardPiece returnLocationOfSpy(int x, int y) {
