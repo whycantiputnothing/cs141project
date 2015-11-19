@@ -114,48 +114,87 @@ public class GameEngine {
 	public void moveNinja() {
 		int[] ninjaPos = grid.findNinja();
 		boolean notAvailable = false;
-
-		for (int i = 0; i < ninjaPos.length; i += 2) {
+		int[] randomNums = {9,9,9,9,9,9,9};
+		
+		for (int i = 0; i < ninjaPos.length -1; i += 2) {
+			int count = 3;
 			do {
 				
 				int moveDir = grid.randNinjaMove();
-				if (moveDir == 0) {
-					if (grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("U")
-							|| grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("X")
-							|| ninjaPos[i] - 1 < 0) {
-						notAvailable = true;
-					} else {
-						swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] - 1, ninjaPos[i + 1]);
-					}
-				}
-
-				else if (moveDir == 1) {
-					if (grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("U")
-							|| grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("X")
-							|| ninjaPos[i] + 1 > 8) {
-						notAvailable = true;
-					} else{
-					swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] + 1, ninjaPos[i + 1]);
+				//int moveDir = 0;
+				if (count > 3){
+					while(moveDir == randomNums[count] || moveDir == randomNums[count - 1] 
+							|| moveDir == randomNums[count - 2] || moveDir == randomNums[count -3]){
+						moveDir = grid.randNinjaMove();
 					}
 				}
 				
-				else if (moveDir == 2) {
-					if (grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("U")
-							|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("X")
-							|| ninjaPos[i + 1] - 1 < 0) {
+				//up
+				if (moveDir == 0) {
+					if(ninjaPos[i] - 1 > 0){						
+						if (grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("U")
+								|| grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("X")) {
+							notAvailable = true;
+						} else {
+							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] - 1, ninjaPos[i + 1]);
+							notAvailable = false;
+						}
+					}else {
 						notAvailable = true;
-					} else{
-					swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1] - 1);
+					}
+					
+				}
+				
+				//down
+				else if (moveDir == 1) {
+					if(ninjaPos[i] + 1 < 8){
+						if (grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("U")
+								|| grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("X")) {
+							notAvailable = true;
+						} else{
+							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] + 1, ninjaPos[i + 1]);
+							notAvailable = false;
+						}
+					}else{
+						notAvailable = true;
 					}
 				}
-				else if (moveDir == 3) {
-					if (grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] + 1).getPieceType().equals("U")
-							|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] + 1).getPieceType().equals("X")
-							|| ninjaPos[i + 1] + 1 > 8) {
+				
+				//left
+				else if (moveDir == 2) {
+					if (ninjaPos[i + 1] - 1 > 0){
+						if (grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("U")
+								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("X")) {
+							notAvailable = true;
+						} else{
+							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1] - 1);
+							notAvailable = false;
+						}
+					}else {
 						notAvailable = true;
-					} else{
-					swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1] + 1);
 					}
+				}
+				
+				//right
+				else if (moveDir == 3) {
+					if (ninjaPos[i + 1] + 1 < 8){
+						if (grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] + 1).getPieceType().equals("U")
+								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] + 1).getPieceType().equals("X")) {
+							notAvailable = true;
+						} else{
+							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1] + 1);
+							notAvailable = false;
+						}
+					}else{
+						notAvailable = true;
+					}
+				}
+				
+				randomNums[count] = moveDir;
+				
+				count++;
+				if (count == 7){
+					notAvailable = false;
 				}
 			} while (notAvailable);
 		}
@@ -166,7 +205,6 @@ public class GameEngine {
 	}
 
 	public void invincibility() {
-
 	}
 
 	public void swap(int w, int x, int y, int z) {

@@ -14,6 +14,8 @@ public class Spy extends BoardPiece {
 		
 	}
 	
+	
+	
 	public void setNumberOfLives(){
 		
 	}

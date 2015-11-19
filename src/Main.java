@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class Main {
 
@@ -10,6 +11,7 @@ public class Main {
     	ge.makeGrid();
     	ge.debug(true);
     	ge.printGrid();
+    	Scanner sc = new Scanner(System.in);
     	ge.moveNinja();
     	ge.printGrid();
     	
