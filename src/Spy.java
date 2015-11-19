@@ -10,11 +10,13 @@ public class Spy extends BoardPiece {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void setAmmoCount(){
-		
+	public void setAmmoCount(int i){
+		ammoCount = i;
 	}
 	
-	
+	public int getAmmoCount() {
+		return ammoCount;
+	}
 	
 	public void setNumberOfLives(){
 		
@@ -35,4 +37,6 @@ public class Spy extends BoardPiece {
 	public void getPowerup(){
 		
 	}
+
+	
 }

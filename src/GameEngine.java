@@ -107,10 +107,6 @@ public class GameEngine {
 		}
 	}
 
-	public BoardPiece returnLocationOfSpy(int x, int y) {
-		return grid.getBoardPieceAt(x, y);
-	}
-
 	public void moveNinja() {
 		int[] ninjaPos = grid.findNinja();
 		boolean notAvailable = false;
