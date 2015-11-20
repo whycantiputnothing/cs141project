@@ -234,4 +234,8 @@ public class GameEngine {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public void setNumberOfMoves(int numberOfMoves) {
+		this.numberOfMoves = numberOfMoves;
+	}
 }

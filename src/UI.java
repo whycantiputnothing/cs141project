@@ -40,7 +40,7 @@ public class UI {
 		}
 	}
 	
-	public void gameLoop(){
+	private void gameLoop(){
 		GE.reset();
 		System.out.println("New game started.\n");
 		GE.printGrid();

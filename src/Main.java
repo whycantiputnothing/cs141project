@@ -14,6 +14,12 @@ public class Main {
     	Scanner sc = new Scanner(System.in);
     	ge.moveNinja();
     	ge.printGrid();
+    	ge.moveNinja();
+    	ge.printGrid();
+    	ge.moveNinja();
+    	ge.printGrid();
+    	ge.moveNinja();
+    	ge.printGrid();
     	
     	//g.shufflePieces();
     	//System.out.println(g.toString());

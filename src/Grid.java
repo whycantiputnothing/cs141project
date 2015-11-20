@@ -201,6 +201,8 @@ public class Grid {
 		for (BoardPiece[] b : grid) {
 			for (BoardPiece p : b) {
 				p.setIsVisible(a);
+				if (p.getPieceType().equals("S"))
+					p.setIsVisible(true);
 			}
 		}
 	}
