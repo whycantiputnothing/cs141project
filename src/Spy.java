@@ -18,12 +18,16 @@ public class Spy extends BoardPiece {
 		return ammoCount;
 	}
 	
-	public void setNumberOfLives(){
-		
+	public void death(){
+		numberOfLives--;
 	}
 	
 	public int getNumberOfLives(){
 		return numberOfLives;
+	}
+	
+	public void setNumberOfLives(int i){
+		numberOfLives = i;
 	}
 
 	public void spyShoot(){

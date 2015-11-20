@@ -2,6 +2,8 @@
 public class GameEngine {
 
 	private int numberOfMoves;
+	
+	private boolean isAlive = true;
 
 	private Grid grid = new Grid();
 
@@ -16,13 +18,6 @@ public class GameEngine {
 
 	public void makeGrid() {
 		grid.instantiateGrid();
-	}
-
-	private boolean isAlive(int lives) {
-		if (lives == 0) {
-			return false;
-		}
-		return true;
 	}
 
 	public void moveSpy(String s) {
@@ -106,6 +101,31 @@ public class GameEngine {
 			a.setIsVisible(true);
 		}
 	}
+	
+	public void ninjaStab(){
+		int[] ninjaPos = grid.findNinja();
+		int[] spyPos = grid.findSpy();
+		int c = spyPos[0];
+		int d = spyPos[1];
+		int count = 0;
+		int count2 = 0;
+		while (count < 6){
+			int a = ninjaPos[count2];
+			int b = ninjaPos[count2 + 1];
+			if(((a + 1) == c) && b == d){
+				isAlive = false;
+			}
+			else if(((a - 1) == c) && b == d){
+				isAlive = false;
+			}
+			else if(((b - 1) == d) && c == a){
+				isAlive = false;
+			}
+			else if(((b + 1) == d) && c == a){
+				isAlive = false;
+			}
+		}
+	}
 
 	public void moveNinja() {
 		int[] ninjaPos = grid.findNinja();
@@ -133,6 +153,7 @@ public class GameEngine {
 							notAvailable = true;
 						} else {
 							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] - 1, ninjaPos[i + 1]);
+							
 							notAvailable = false;
 						}
 					}else {
@@ -197,7 +218,10 @@ public class GameEngine {
 	}
 
 	public void respawn() {
-
+		int[] spyPos = grid.findSpy();
+		BoardPiece a = grid.getBoardPieceAt(spyPos[0], spyPos[1]);
+		((Spy)(a)).death();
+		grid.setBoardPieceAt(spyPos[0], spyPos[1], a);
 	}
 
 	public void invincibility() {
@@ -238,4 +262,5 @@ public class GameEngine {
 	public void setNumberOfMoves(int numberOfMoves) {
 		this.numberOfMoves = numberOfMoves;
 	}
+	
 }
