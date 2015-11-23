@@ -78,7 +78,26 @@ public class GameEngine {
 		int ammo = ((Spy)(grid.getBoardPieceAt(row, col))).getAmmoCount();
 		((Spy)(grid.getBoardPieceAt(row, col))).setAmmoCount(ammo - 1);
 	}
+	
+	public void lookAround() {
+		int row = grid.findSpy()[0];
+		int col = grid.findSpy()[1];
+			
+		if (row > 0) {					
+			grid.getBoardPieceAt(row - 1, col).setIsVisible(true);
+		}
+		if (row < 8) {
+			grid.getBoardPieceAt(row + 1, col).setIsVisible(true);
+		}
+		if (col > 0) {
+			grid.getBoardPieceAt(row, col - 1).setIsVisible(true);
+		}
+		if (col < 8){
+			grid.getBoardPieceAt(row, col + 1).setIsVisible(true);
+		}
 		
+	}	
+	
 	public void look(String direction){
 		int i = grid.findSpy()[0];
 		int j = grid.findSpy()[1];
