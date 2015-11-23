@@ -10,6 +10,7 @@ public class Main {
     	//g.debug(true);
     	ge.makeGrid();
     	ge.debug(true);
+    	ge.lookAround();
     	ge.printGrid();
     	Scanner sc = new Scanner(System.in);
     	ge.moveNinja();
