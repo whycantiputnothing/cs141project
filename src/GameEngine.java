@@ -104,19 +104,19 @@ public class GameEngine {
 		BoardPiece a;
 		
 		if (direction.toLowerCase().equals("w")){
-			a = grid.getBoardPieceAt(i - 2, j); 
+			a = grid.getBoardPieceAt(i - 3, j); 
 			a.setIsVisible(true);
 		}
 		else if (direction.toLowerCase().equals("a")){
-			a = grid.getBoardPieceAt(i, j - 2); 
+			a = grid.getBoardPieceAt(i, j - 3); 
 			a.setIsVisible(true);
 		}
 		else if (direction.toLowerCase().equals("s")){
-			a = grid.getBoardPieceAt(i + 2, j); 
+			a = grid.getBoardPieceAt(i + 3, j); 
 			a.setIsVisible(true);
 		}
 		else if (direction.toLowerCase().equals("d")){
-			a = grid.getBoardPieceAt(i, j + 2); 
+			a = grid.getBoardPieceAt(i, j + 3); 
 			a.setIsVisible(true);
 		}
 	}
