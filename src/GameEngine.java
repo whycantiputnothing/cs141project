@@ -10,7 +10,13 @@ public class GameEngine {
 	private int numberOfMovesCounter;
 	
 	private boolean isAlive = true;
+	
+	private boolean gotPowerUp = false;
+	
+	private String powerUpName = "";
 
+	private boolean hasExtraBullet = false;
+	
 	private Grid grid = new Grid();
 
 	public void makeGrid() {
@@ -24,14 +30,17 @@ public class GameEngine {
 
 	public void getBullet(int x, int y) {
 		BoardPiece delete = new BoardPiece(" ");
+		powerUpName = "Extra Bullet";
 		if (ammoCount == 0) {
 			if (grid.getBoardPieceAt(x, y).getPieceType().equals("B")) {
 				grid.setBoardPieceAt(x, y, delete);
+				hasExtraBullet = true;
 				ammoCount++;
 			}
 		} else if (ammoCount == 1) {
 			if (grid.getBoardPieceAt(x, y).getPieceType().equals("B")) {
 				grid.setBoardPieceAt(x, y, delete);
+				hasExtraBullet = false;
 			}
 		}
 	}
@@ -41,14 +50,33 @@ public class GameEngine {
 		int briefRow = grid.findBriefCase()[0];
 		int briefCol = grid.findBriefCase()[1];
 		BoardPiece delete = new BoardPiece(" ");
-
+		powerUpName = "Radar";
+		
 		if (grid.getBoardPieceAt(x, y).getPieceType().equals("R")) {
 			grid.setBoardPieceAt(x, y, delete);
+			gotPowerUp = true;
+			
 			System.out.println("The briefcase is in the room at: (" + briefRow + ", " + briefCol + ")");
 			((Room) (grid.getBoardPieceAt(briefRow, briefCol))).setIsBriefcaseVisible(true);
 		}
 	}
 
+	public void getInvincibility(int x, int y){
+		BoardPiece delete = new BoardPiece(" ");
+		powerUpName = "Invincibility";
+		numberOfMovesCounter = numberOfMoves;
+				
+		if (grid.getBoardPieceAt(x, y).getPieceType().equals("I")) {
+			grid.setBoardPieceAt(x, y, delete);
+			gotPowerUp = true;
+			
+			while(numberOfMovesCounter < numberOfMoves + 6){
+				isAlive = true;
+			}
+		}
+		
+	}
+	
 	public void swap(int w, int x, int y, int z) {
 		BoardPiece a = grid.getBoardPieceAt(w, x);
 		BoardPiece b = grid.getBoardPieceAt(y, z);
@@ -339,23 +367,6 @@ public class GameEngine {
 		grid.setBoardPieceAt(spyPos[0], spyPos[1], a);
 		isAlive = true;
 	}
-
-	public void getInvincibility(int x, int y){
-		BoardPiece delete = new BoardPiece(" ");
-		
-		numberOfMovesCounter = numberOfMoves;
-				
-		if (grid.getBoardPieceAt(x, y).getPieceType().equals("I")) {
-			grid.setBoardPieceAt(x, y, delete);
-			
-			while(numberOfMovesCounter < numberOfMoves + 6){
-				isAlive = true;
-			}
-		}
-		
-	}
-	
-	
 
 	public String gotPowerup(){
 		String s = "";
