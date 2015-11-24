@@ -61,6 +61,7 @@ public class Grid {
 				if (grid[i][j].getPieceType().equals("U") || grid[i][j].getPieceType().equals("X")) {
 					rows.add(i);
 					cols.add(j);
+				
 				}
 			}
 		}
@@ -107,8 +108,8 @@ public class Grid {
 			}
 		}
 	}
-
-	public int randNinjaMove() {
+	
+	public int randNinjaMove(){
 		Random rand = new Random();
 		int moveDir = rand.nextInt(3);
 		return moveDir;
@@ -150,24 +151,6 @@ public class Grid {
 		return briefcaseAt;
 	}
 
-	public int[] findNinja() {
-		int[] ninjaLocations = new int[12];
-		int count = 0;
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].getPieceType().equals("N")) {
-					ninjaLocations[count] = i;
-					count++;
-					ninjaLocations[count] = j;
-					count++;
-	
-				}
-			}
-		}
-	
-		return ninjaLocations;
-	}
-
 	public void checkNinjaPosition() {
 		for (int i = 5; i < grid.length; i++) {
 			for (int j = 0; j < (i - 4); j++) {
@@ -185,6 +168,39 @@ public class Grid {
 		}
 	}
 
+	public List<Integer> findNinja(){
+		List<Integer> ninjaPos = new ArrayList<Integer>();
+	
+		for (int i = 0; i < grid.length; i++){
+			for (int j = 0; j <grid[i].length; j++){
+				if (grid[i][j].getPieceType().equals("N")){
+					ninjaPos.add(i);
+					ninjaPos.add(j);
+					
+				}
+			}
+		}
+		
+			
+		return ninjaPos;	
+	}
+	
+	public List<Integer> findPowerUp() {
+		List<Integer> powerUpAt = new ArrayList<Integer>();
+		
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j].getClass().getName().equals("PowerUps")) {
+					powerUpAt.add(i);
+					powerUpAt.add(j);
+				}
+			}
+		}
+		
+		return powerUpAt;
+		
+	}
+	
 	public BoardPiece getBoardPieceAt(int x, int y) {
 		return grid[x][y];
 	}

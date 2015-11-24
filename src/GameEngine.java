@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameEngine {
 
@@ -59,6 +61,7 @@ public class GameEngine {
 	}
 
 	public void moveSpy(String s) {
+		
 		if (s.toLowerCase().equals("w")) {
 			getRadar(grid.findSpy()[0] - 1, grid.findSpy()[1]);
 			getBullet(grid.findSpy()[0] - 1, grid.findSpy()[1]);
@@ -178,9 +181,44 @@ public class GameEngine {
 			a.setIsVisible(true);
 		}
 	}
-
-	public void ninjaStab() {
-		int[] ninjaPos = grid.findNinja();
+	
+	public boolean canSpyMove(String s){
+		int[] spyPos = grid.findSpy();
+		int a = spyPos[0];
+		int b = spyPos[1];
+		boolean c = false;
+		if (s.equals("w")){
+			if (a == 0)
+				c = false;
+			else 
+				c = true;
+		}
+		else if (s.equals("a")){
+			if (b == 0)
+				c = false;
+			else 
+				c = true;
+		}
+		else if (s.equals("s")){
+			if (a == 8)
+				c = false;
+			else 
+				c = true;
+		}
+		else if (s.equals("d")){
+			if (b == 8)
+				c = false;
+			else 
+				c = true;
+		}
+		return c;
+	}
+	
+	public void ninjaStab(){
+		int[] ninjaPos = new int[grid.findNinja().size()];
+		for(int i = 0; i < grid.findNinja().size(); i++){
+			ninjaPos[i] = grid.findNinja().get(i);
+		}
 		int[] spyPos = grid.findSpy();
 		int c = spyPos[0];
 		int d = spyPos[1];
@@ -202,7 +240,10 @@ public class GameEngine {
 	}
 
 	public void moveNinja() {
-		int[] ninjaPos = grid.findNinja();
+		int[] ninjaPos = new int[grid.findNinja().size()];
+		for(int i = 0; i < grid.findNinja().size(); i++){
+			ninjaPos[i] = grid.findNinja().get(i);
+		}
 		boolean notAvailable = false;
 		int[] randomNums = { 9, 9, 9, 9, 9, 9, 9 };
 
@@ -296,25 +337,21 @@ public class GameEngine {
 		BoardPiece a = grid.getBoardPieceAt(spyPos[0], spyPos[1]);
 		((Spy) (a)).death();
 		grid.setBoardPieceAt(spyPos[0], spyPos[1], a);
+		isAlive = true;
 	}
 
 	public void invincibility() {
 	}
 
-	public void quitGame() {
-
-	}
-
-	public void saveGame() {
-
-	}
-
-	public void loadGame() {
-
+	public String gotPowerup(){
+		String s = "";
+		return s;
 	}
 
 	public void reset() {
-
+		grid.instantiateGrid();
+		numberOfMoves = 0;
+		isAlive = true;
 	}
 
 	public void debug(boolean a) {
@@ -328,12 +365,26 @@ public class GameEngine {
 	}
 
 	public boolean gameWon() {
-		// TODO Auto-generated method stub
-		return false;
+		int[] spyPos = grid.findSpy();
+		int[] briefcasePos = grid.findBriefCase();
+		
+		if (spyPos[0] == briefcasePos[0] && spyPos[1] == briefcasePos[1])
+		return true;
+		
+		else 
+			return false;
 	}
 
 	public void setNumberOfMoves(int numberOfMoves) {
 		this.numberOfMoves = numberOfMoves;
 	}
-
+	
+	public void takeTurn(){
+		numberOfMoves++;
+	}
+	
+	public boolean getIsAlive(){
+		return isAlive;
+	}
+	
 }
