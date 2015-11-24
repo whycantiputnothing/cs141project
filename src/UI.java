@@ -52,7 +52,6 @@ public class UI {
 			option = in.nextInt();
 			switch (option){
 			case 1:
-				GE.lookAtSpaceU(8, 0);
 				System.out.println("Choose to:\n" + "(1)Move up (2)Move Down (3)Move Right (4)Move Left\n" + "(5)Shoot Up (6)Shoot Down (7)Shoot Right (8)Shoot Left");
 				option2 = in.nextInt();
 				switch (option2){

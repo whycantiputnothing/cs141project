@@ -1,11 +1,11 @@
 import java.util.*;
-import java.util.Random;
 
 public class Grid {
 
 	private BoardPiece[][] grid = new BoardPiece[9][9];
 
 	public void instantiateGrid() {
+
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				grid[i][j] = new BoardPiece(" ");
@@ -31,77 +31,13 @@ public class Grid {
 		grid[8][5] = new Room(false);
 		grid[8][6] = new Room(false);
 		shufflePieces();
-		//swapSpace(findSpy()[0], findSpy()[1], 8, 0);
+		// swapSpace(findSpy()[0], findSpy()[1], 8, 0);
 		placeSpyAtStart();
 		placeRooms();
 		checkNinjaPosition();
-		
 
 	}
-	
-	public int[] findBriefCase() {
-		int[] findBriefCase = new int[2];
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].getPieceType().equals("X")) {
-					findBriefCase[0] = i;
-					findBriefCase[1] = j;
-				}
-			}
-		}
-		return findBriefCase;
-	}
 
-	public void shufflePieces() {
-		List<BoardPiece> somePieces = new ArrayList<BoardPiece>();
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				somePieces.add(grid[i][j]);
-			}
-		}
-
-		Collections.shuffle(somePieces);
-		int count = 0;
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (count < somePieces.size()) {
-					grid[i][j] = somePieces.get(count);
-					count++;
-				}
-			}
-		}
-	}
-
-	
-	public int[] findSpy() {
-		int[] spyAt = {0,0};
-		
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].getPieceType().equals("S")) {
-					spyAt[0] = i;
-					spyAt[1] = j;
-				}
-			}
-		}
-		return spyAt;
-	}
-	
-	public int randNinjaMove(){
-		Random rand = new Random();
-		int moveDir = rand.nextInt(3);
-		return moveDir;
-}
-	public void placeSpyAtStart(){
-		BoardPiece a = grid[8][0];
-		int c = findSpy()[0];
-		int d = findSpy()[1];
-		BoardPiece b = grid[c][d];
-		grid[8][0] = b;
-		grid[c][d] = a;
-	}
-	
-	
 	public void placeRooms() {
 		int count = 0;
 		List<Integer> rows = new ArrayList<Integer>();
@@ -119,7 +55,7 @@ public class Grid {
 			roomPositionCols.add(roomPostitionCols1[count]);
 			count++;
 		}
-
+	
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				if (grid[i][j].getPieceType().equals("U") || grid[i][j].getPieceType().equals("X")) {
@@ -128,7 +64,7 @@ public class Grid {
 				}
 			}
 		}
-
+	
 		for (int i = 0; i < rows.size(); i++) {
 			for (int j = 0; j < cols.size(); j++) {
 				int a = rows.get(i);
@@ -143,13 +79,93 @@ public class Grid {
 				}
 			}
 		}
-
+	
 		for (int i = 0; i < rows.size(); i++) {
 			BoardPiece x = grid[roomPositionRows.get(i)][roomPositionCols.get(i)];
 			BoardPiece z = grid[rows.get(i)][cols.get(i)];
 			grid[rows.get(i)][cols.get(i)] = x;
 			grid[roomPositionRows.get(i)][roomPositionCols.get(i)] = z;
 		}
+	}
+
+	public void shufflePieces() {
+		List<BoardPiece> somePieces = new ArrayList<BoardPiece>();
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				somePieces.add(grid[i][j]);
+			}
+		}
+	
+		Collections.shuffle(somePieces);
+		int count = 0;
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (count < somePieces.size()) {
+					grid[i][j] = somePieces.get(count);
+					count++;
+				}
+			}
+		}
+	}
+
+	public int randNinjaMove() {
+		Random rand = new Random();
+		int moveDir = rand.nextInt(3);
+		return moveDir;
+	}
+
+	public void placeSpyAtStart() {
+		BoardPiece a = grid[8][0];
+		int c = findSpy()[0];
+		int d = findSpy()[1];
+		BoardPiece b = grid[c][d];
+		grid[8][0] = b;
+		grid[c][d] = a;
+	}
+
+	public int[] findSpy() {
+		int[] spyAt = { 0, 0 };
+	
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j].getPieceType().equals("S")) {
+					spyAt[0] = i;
+					spyAt[1] = j;
+				}
+			}
+		}
+		return spyAt;
+	}
+
+	public int[] findBriefCase() {
+		int[] briefcaseAt = { 0, 0 };
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if ((getBoardPieceAt(i,j)).getHasBriefcase()) {
+					briefcaseAt[0] = i;
+					briefcaseAt[1] = j;
+				}
+			}
+		}
+		return briefcaseAt;
+	}
+
+	public int[] findNinja() {
+		int[] ninjaLocations = new int[12];
+		int count = 0;
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j].getPieceType().equals("N")) {
+					ninjaLocations[count] = i;
+					count++;
+					ninjaLocations[count] = j;
+					count++;
+	
+				}
+			}
+		}
+	
+		return ninjaLocations;
 	}
 
 	public void checkNinjaPosition() {
@@ -169,38 +185,23 @@ public class Grid {
 		}
 	}
 
-	public int[] findNinja(){
-		int[] ninjaLocations = new int[12];
-		int count = 0;
-		for (int i = 0; i < grid.length; i++){
-			for (int j = 0; j <grid[i].length; j++){
-				if (grid[i][j].getPieceType().equals("N")){
-					ninjaLocations[count] = i;
-					count++;
-					ninjaLocations[count] = j;
-					count++;
-					
-				}
-			}
-		}
-		
-			
-		return ninjaLocations;	
-	}
-	
 	public BoardPiece getBoardPieceAt(int x, int y) {
 		return grid[x][y];
 	}
-	
+
 	public void setBoardPieceAt(int x, int y, BoardPiece a) {
 		grid[x][y] = a;
-		
+
 	}
 
 	public void debug(boolean a) {
 		for (BoardPiece[] b : grid) {
 			for (BoardPiece p : b) {
 				p.setIsVisible(a);
+				if(p.getPieceType().equals("X"))
+					p.setIsVisible(true);
+				if (p.getPieceType().equals("U"))
+					p.setIsVisible(true);
 				if (p.getPieceType().equals("S"))
 					p.setIsVisible(true);
 			}

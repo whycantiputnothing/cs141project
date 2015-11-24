@@ -6,10 +6,16 @@
 public class BoardPiece {
 	private boolean isVisible;
 	
+	protected boolean hasBriefcase;
+	
 	private String pieceType;
 	
 	public BoardPiece (String s){
 		pieceType = s;
+	}
+	
+	public boolean getHasBriefcase(){
+		return hasBriefcase;
 	}
 	
 	public boolean getIsVisible(){

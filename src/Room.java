@@ -1,7 +1,5 @@
 
 public class Room extends BoardPiece{
-
-	private boolean hasBriefcase;
 	
 	private boolean isBriefcaseVisible;
 	
@@ -14,6 +12,10 @@ public class Room extends BoardPiece{
 
 	public boolean getHasBriefcase(){
 		return hasBriefcase;
+	}
+	
+	public void setIsBriefcaseVisible(boolean vis){
+		isBriefcaseVisible = vis;
 	}
 	
 	public String getPieceType(){
