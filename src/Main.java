@@ -9,6 +9,7 @@ public class Main {
 
     	ge.makeGrid();
     	ge.debug(true);
+    	ge.lookAround();
     	ge.printGrid();
     	ge.moveSpy("W");
     	ge.printGrid();

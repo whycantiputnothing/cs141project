@@ -118,7 +118,7 @@ public class GameEngine {
 		((Spy) (grid.getBoardPieceAt(row, col))).setAmmoCount(ammo - 1);
 	}
 
-	public void look(String direction) {
+	public void look1(String direction) {
 		int i = grid.findSpy()[0];
 		int j = grid.findSpy()[1];
 		BoardPiece a;
@@ -134,6 +134,47 @@ public class GameEngine {
 			a.setIsVisible(true);
 		} else if (direction.toLowerCase().equals("d")) {
 			a = grid.getBoardPieceAt(i, j + 2);
+		}
+	}
+	
+	public void lookAround() {
+		int row = grid.findSpy()[0];
+		int col = grid.findSpy()[1];
+			
+		if (row > 0) {					
+			grid.getBoardPieceAt(row - 1, col).setIsVisible(true);
+		}
+		if (row < 8) {
+			grid.getBoardPieceAt(row + 1, col).setIsVisible(true);
+		}
+		if (col > 0) {
+			grid.getBoardPieceAt(row, col - 1).setIsVisible(true);
+		}
+		if (col < 8){
+			grid.getBoardPieceAt(row, col + 1).setIsVisible(true);
+		}
+		
+	}	
+	
+	public void look(String direction){
+		int i = grid.findSpy()[0];
+		int j = grid.findSpy()[1];
+		BoardPiece a;
+		
+		if (direction.toLowerCase().equals("w")){
+			a = grid.getBoardPieceAt(i - 3, j); 
+			a.setIsVisible(true);
+		}
+		else if (direction.toLowerCase().equals("a")){
+			a = grid.getBoardPieceAt(i, j - 3); 
+			a.setIsVisible(true);
+		}
+		else if (direction.toLowerCase().equals("s")){
+			a = grid.getBoardPieceAt(i + 3, j); 
+			a.setIsVisible(true);
+		}
+		else if (direction.toLowerCase().equals("d")){
+			a = grid.getBoardPieceAt(i, j + 3); 
 			a.setIsVisible(true);
 		}
 	}
