@@ -61,23 +61,23 @@ public class GameEngine {
 		if (s.toLowerCase().equals("w")) {
 			getRadar(grid.findSpy()[0] - 1, grid.findSpy()[1]);
 			getBullet(grid.findSpy()[0] - 1, grid.findSpy()[1]);
-			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0] - 1, grid.findSpy()[1]);
 			getInvincibility(grid.findSpy()[0] - 1, grid.findSpy()[1]);
+			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0] - 1, grid.findSpy()[1]);			
 		} else if (s.toLowerCase().equals("a")) {
 			getRadar(grid.findSpy()[0], grid.findSpy()[1] - 1);
 			getBullet(grid.findSpy()[0], grid.findSpy()[1] - 1);
-			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0], grid.findSpy()[1] - 1);
 			getInvincibility(grid.findSpy()[0], grid.findSpy()[1] - 1);
+			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0], grid.findSpy()[1] - 1);
 		} else if (s.toLowerCase().equals("s")) {
 			getRadar(grid.findSpy()[0] + 1, grid.findSpy()[1]);
 			getBullet(grid.findSpy()[0] + 1, grid.findSpy()[1]);
-			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0] + 1, grid.findSpy()[1]);
 			getInvincibility(grid.findSpy()[0] + 1, grid.findSpy()[1]);
+			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0] + 1, grid.findSpy()[1]);
 		} else if (s.toLowerCase().equals("d")) {
 			getRadar(grid.findSpy()[0], grid.findSpy()[1] + 1);
 			getBullet(grid.findSpy()[0], grid.findSpy()[1] + 1);
-			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0], grid.findSpy()[1] + 1);
 			getInvincibility(grid.findSpy()[0], grid.findSpy()[1] + 1);
+			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0], grid.findSpy()[1] + 1);
 		}
 	}
 
@@ -348,7 +348,7 @@ public class GameEngine {
 		if (grid.getBoardPieceAt(x, y).getPieceType().equals("I")) {
 			grid.setBoardPieceAt(x, y, delete);
 			
-			while(numberOfMovesCounter < numberOfMoves + 5){
+			while(numberOfMovesCounter < numberOfMoves + 6){
 				isAlive = true;
 			}
 		}
