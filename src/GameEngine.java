@@ -6,7 +6,9 @@ public class GameEngine {
 	private int numberOfMoves;
 
 	private int ammoCount = 1;
-
+	
+	private int numberOfMovesCounter;
+	
 	private boolean isAlive = true;
 
 	private Grid grid = new Grid();
@@ -34,12 +36,6 @@ public class GameEngine {
 		}
 	}
 
-	public void getInvincibility(int x, int y) {
-		BoardPiece delete = new BoardPiece(" ");
-		if (grid.getBoardPieceAt(x, y).getPieceType().equals("I")) {
-			grid.setBoardPieceAt(x, y, delete);
-		}
-	}
 
 	public void getRadar(int x, int y) {
 		int briefRow = grid.findBriefCase()[0];
@@ -66,18 +62,22 @@ public class GameEngine {
 			getRadar(grid.findSpy()[0] - 1, grid.findSpy()[1]);
 			getBullet(grid.findSpy()[0] - 1, grid.findSpy()[1]);
 			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0] - 1, grid.findSpy()[1]);
+			getInvincibility(grid.findSpy()[0] - 1, grid.findSpy()[1]);
 		} else if (s.toLowerCase().equals("a")) {
 			getRadar(grid.findSpy()[0], grid.findSpy()[1] - 1);
 			getBullet(grid.findSpy()[0], grid.findSpy()[1] - 1);
 			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0], grid.findSpy()[1] - 1);
+			getInvincibility(grid.findSpy()[0], grid.findSpy()[1] - 1);
 		} else if (s.toLowerCase().equals("s")) {
 			getRadar(grid.findSpy()[0] + 1, grid.findSpy()[1]);
 			getBullet(grid.findSpy()[0] + 1, grid.findSpy()[1]);
 			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0] + 1, grid.findSpy()[1]);
+			getInvincibility(grid.findSpy()[0] + 1, grid.findSpy()[1]);
 		} else if (s.toLowerCase().equals("d")) {
 			getRadar(grid.findSpy()[0], grid.findSpy()[1] + 1);
 			getBullet(grid.findSpy()[0], grid.findSpy()[1] + 1);
 			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0], grid.findSpy()[1] + 1);
+			getInvincibility(grid.findSpy()[0], grid.findSpy()[1] + 1);
 		}
 	}
 
@@ -340,8 +340,22 @@ public class GameEngine {
 		isAlive = true;
 	}
 
-	public void invincibility() {
+	public void getInvincibility(int x, int y){
+		BoardPiece delete = new BoardPiece(" ");
+		
+		numberOfMovesCounter = numberOfMoves;
+				
+		if (grid.getBoardPieceAt(x, y).getPieceType().equals("I")) {
+			grid.setBoardPieceAt(x, y, delete);
+			
+			while(numberOfMovesCounter < numberOfMoves + 5){
+				isAlive = true;
+			}
+		}
+		
 	}
+	
+	
 
 	public String gotPowerup(){
 		String s = "";
