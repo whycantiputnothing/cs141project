@@ -43,25 +43,17 @@ public class UI {
 
 	private void gameLoop() {
 		GE.reset();
+		GE.debug(true);
 		System.out.println("New game started.\n");
 
 		String[] choice = { "w", "a", "s", "d" };
 
 		while (!GE.gameWon()) {
-			if (!(GE.gotPowerup() == null)) {
-				System.out.println("You got a: " + GE.gotPowerup());
-				if (!GE.getIsAlive()) {
-					System.out.println("A ninja has stabbed you");
-					GE.respawn();
-				}
-			} else if (!GE.getIsAlive()) {
-				System.out.println("A ninja has stabbed you");
-				GE.respawn();
-			}
-
+			powerUp();
+			dead();
+			
 			GE.printGrid();
 			int option;
-			int option2;
 			System.out.println("What would you like to do?:\n" + "(0)Look (1)Save Game (2)Quit");
 			option = in.nextInt();
 			in.nextLine();
@@ -92,7 +84,7 @@ public class UI {
 								if (option < 0 || option > 3) {
 									System.out.println("Please input an integer between 0 and 3");
 								} else {
-									GE.Shoot(choice[option]);
+									GE.shoot(choice[option]);
 									GE.takeTurn();
 									turn = false;
 								}
@@ -125,6 +117,7 @@ public class UI {
 			} else {
 				System.out.println("Please input an integer between 0 and 3");
 			}
+			GE.moveNinja();
 		}
 	}
 
@@ -132,8 +125,43 @@ public class UI {
 		System.out.println("Welcome to the Spy Game!\n");
 	}
 
-	public static void deadMessage() {
-		System.out.println("You died. You will be placed at the starting point.");
+	private void dead() {
+		if (!GE.getIsAlive()) {
+			System.out.println("A ninja has stabbed you");
+			GE.respawn();
+		}
+	}
+	
+	private void powerUp(){
+		if(GE.getGotPowerUp()){
+			String s = GE.getPowerUpName();
+			if (s.equals("Extra Bullet")){
+				System.out.println("You picked up the Power Up: " + s);
+				if(GE.getHasExtraBullet())
+					System.out.println("Here is one more bullet");
+				else
+					System.out.println("Your gun already has a bullet in it. You cannot carry anymore bullets");
+				
+			GE.setGotPowerUp(false);
+			}
+			else if(s.equals("Radar")){
+				System.out.println("You picked up the Power Up: " + s);
+				int a = GE.briefcasePosition()[0];
+				int b = GE.briefcasePosition()[1];
+				String[] rows = {"top", "middle", "bottom"};
+				String[] cols = {"left", "center","", "right"};
+				System.out.println("The briefcase is in the " + rows[a/2] + " " + cols[b/2] + " room");
+				GE.setGotPowerUp(false);
+			}
+			else {
+				if(GE.getNumberOfMoves() == GE.getNumberOfMovesCounter()){
+					System.out.println("You picked up the Power Up: " + s);
+				}
+			}
+			
+			if((GE.getNumberOfMoves()-GE.getNumberOfMovesCounter() > 0) && (GE.getNumberOfMoves() - GE.getNumberOfMovesCounter() < 5 ))
+				System.out.println("You have " + (5 - (GE.getNumberOfMoves() - GE.getNumberOfMovesCounter())) + " turns of invinicibility left");
+		}
 	}
 
 }

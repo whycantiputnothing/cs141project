@@ -1,7 +1,9 @@
 
 public class Room extends BoardPiece{
 	
-	private boolean isBriefcaseVisible;
+	private boolean isBriefcaseVisible = false;
+	
+	private boolean hasBriefcase = false;
 	
 	public Room(boolean b) {
 		super("U");

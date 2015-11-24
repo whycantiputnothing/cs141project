@@ -1,8 +1,8 @@
 public class Spy extends BoardPiece {
 	
-	private int ammoCount;
+	private int ammoCount = 1;
 	
-	private int numberOfLives;
+	private int numberOfLives = 3;
 
 	public Spy() {
 		super("S");

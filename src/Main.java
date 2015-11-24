@@ -6,7 +6,7 @@ public class Main {
     	Grid g = new Grid();
     	UI ui = new UI(new GameEngine());
     	GameEngine ge = new GameEngine();
-
+/*
     	ge.makeGrid();
     	ge.debug(true);
     	ge.lookAround();
@@ -25,7 +25,8 @@ public class Main {
     	ge.moveSpy("s");
     	ge.moveSpy("s");
     	ge.printGrid();
-
+*/
+    	ui.startGame();
 
 	}
 }

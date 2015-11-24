@@ -142,9 +142,11 @@ public class Grid {
 		int[] briefcaseAt = { 0, 0 };
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				if ((getBoardPieceAt(i,j)).getHasBriefcase()) {
-					briefcaseAt[0] = i;
-					briefcaseAt[1] = j;
+				if ((getBoardPieceAt(i, j).getPieceType().equals("U")||getBoardPieceAt(i, j).getPieceType().equals("X"))) {
+					if(((Room)(getBoardPieceAt(i,j))).getHasBriefcase()){
+						briefcaseAt[0] = i;
+						briefcaseAt[1] = j;
+					}
 				}
 			}
 		}
