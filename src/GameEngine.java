@@ -23,6 +23,8 @@ public class GameEngine implements Serializable {
 	private boolean ninjaGotShot;
 
 	private boolean ninjaSpotted;
+	
+	private boolean isRoomEmpty;
 
 	private Grid grid = new Grid();
 
@@ -227,7 +229,7 @@ public class GameEngine implements Serializable {
 				ninjaSpotted = true;
 			}
 
-			if (i < 7) {
+			if (i < 6) {
 				b = grid.getBoardPieceAt(i + 3, j);
 				b.setIsVisible(true);
 				if (grid.getBoardPieceAt(i + 3, j).getPieceType().equals("N")) {
@@ -243,7 +245,7 @@ public class GameEngine implements Serializable {
 				ninjaSpotted = true;
 			}
 
-			if (j < 7) {
+			if (j < 6) {
 				b = grid.getBoardPieceAt(i, j + 3);
 				b.setIsVisible(true);
 				;
@@ -501,14 +503,34 @@ public class GameEngine implements Serializable {
 		// if wrong room is true, it swaps the spy back to its position
 		boolean isWrongRoom = false;
 		for (int i = 0; i < 9; i++) {
-			if (!((Room) (grid.getBoardPieceAt(roomRows[i], roomCols[i]))).getHasBriefcase()) {
-				isWrongRoom = true;
-				swap(findSpy[0], findSpy[1], findSpy[0] - 1, findSpy[1]);
-			} else {
-				isWrongRoom = false;
+			if(findSpy[0] == roomRows[i] && findSpy[1] == roomCols[i]){
+					isWrongRoom = true;
+					swap(findSpy[0], findSpy[1], findSpy[0] - 1, findSpy[1]);
+				}
+			}
+		return isWrongRoom;
+	}
+	
+	public void hidePieces(){
+		BoardPiece temp;
+		for (int i = 0; i < 9; i++){
+			for (int j = 0; j < 9; j++){
+				temp = grid.getBoardPieceAt(i, j);
+				if(temp.getPieceType().equals("U")){
+					
+				}
+				else if (temp.getPieceType().equals("X")){
+					
+				}
+				else if (temp.getPieceType().equals("S")){
+					
+				}
+				else {
+					temp.setIsVisible(false);
+					grid.setBoardPieceAt(i, j, temp);
+				}
 			}
 		}
-		return isWrongRoom;
 	}
 
 	public void setNumberOfMoves(int numberOfMoves) {

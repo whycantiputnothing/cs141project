@@ -52,6 +52,7 @@ public class UI {
 
 		while (!GE.gameWon()&&!GE.gameLost()) {
 			powerUp();
+			GE.hidePieces();
 			GE.lookAround();
 			
 			System.out.println(GE.gridToString());
@@ -141,6 +142,9 @@ public class UI {
 				} else {
 					if (GE.canSpyMove(option)) {
 						GE.moveSpy(choice[option]);
+						if(GE.wrongRoom()){
+							System.out.println("The room is empty");
+						}
 						GE.takeTurn();
 						turn = false;
 					} 
