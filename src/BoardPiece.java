@@ -1,9 +1,10 @@
+import java.io.Serializable;
 
 /**
  * @author Brandon Nguyen
  *
  */
-public class BoardPiece {
+public class BoardPiece implements Serializable{
 	private boolean isVisible;
 	
 	private String pieceType;

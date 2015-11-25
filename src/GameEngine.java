@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameEngine {
+public class GameEngine implements Serializable {
 
 	private int numberOfMoves;
 
@@ -15,9 +16,13 @@ public class GameEngine {
 
 	private int cannotEnter;
 
-	private boolean canMove = false;
-
 	private boolean hasExtraBullet = false;
+
+	private boolean isInvincible;
+
+	private boolean ninjaGotShot;
+
+	private boolean ninjaSpotted;
 
 	private Grid grid = new Grid();
 
@@ -25,14 +30,13 @@ public class GameEngine {
 		grid.instantiateGrid();
 	}
 
-	public void printGrid() {
-		System.out.println(grid.toString());
+	public String gridToString() {
+		return grid.toString();
 
 	}
 
 	public void getBullet(int x, int y) {
 		BoardPiece delete = new BoardPiece(" ");
-		System.out.println(((Spy) (grid.getBoardPieceAt(grid.findSpy()[0], grid.findSpy()[1]))).getAmmoCount());
 		int ammoCount = ((Spy) (grid.getBoardPieceAt(grid.findSpy()[0], grid.findSpy()[1]))).getAmmoCount();
 		if (grid.getBoardPieceAt(x, y).getPieceType().equals("B")) {
 			grid.setBoardPieceAt(x, y, delete);
@@ -57,6 +61,7 @@ public class GameEngine {
 			powerUpName = "Radar";
 			gotPowerUp = true;
 			((Room) (grid.getBoardPieceAt(briefRow, briefCol))).setIsBriefcaseVisible(true);
+
 		}
 	}
 
@@ -65,16 +70,17 @@ public class GameEngine {
 
 		if (grid.getBoardPieceAt(x, y).getPieceType().equals("I")) {
 			grid.setBoardPieceAt(x, y, delete);
+
 			powerUpName = "Invincibility";
 			gotPowerUp = true;
 
-			int a = numberOfMoves + 1;
+			// int a = numberOfMoves;
+			numberOfMovesCounter = numberOfMoves + 1;
 
-			numberOfMovesCounter = a;
-
-			if (numberOfMovesCounter < numberOfMoves + 5) {
-				isAlive = true;
-			}
+			isInvincible = true;
+		}
+		if (numberOfMoves - numberOfMovesCounter == 5) {
+			isInvincible = false;
 		}
 	}
 
@@ -112,6 +118,7 @@ public class GameEngine {
 
 	public void shoot(String s) {
 		BoardPiece a = new BoardPiece(" ");
+		ninjaGotShot = false;
 		int row = grid.findSpy()[0];
 		int col = grid.findSpy()[1];
 		int count = 0;
@@ -120,6 +127,7 @@ public class GameEngine {
 			for (int i = col; i >= 0; i--) {
 				if ((grid.getBoardPieceAt(row, i).getPieceType().equals("N")) && (count < 1)) {
 					grid.setBoardPieceAt(row, i, a);
+					ninjaGotShot = true;
 					count++;
 				}
 			}
@@ -127,6 +135,7 @@ public class GameEngine {
 			for (int i = row; i >= 0; i--) {
 				if ((grid.getBoardPieceAt(i, col).getPieceType().equals("N")) && (count < 1)) {
 					grid.setBoardPieceAt(i, col, a);
+					ninjaGotShot = true;
 					count++;
 				}
 			}
@@ -134,6 +143,7 @@ public class GameEngine {
 			for (int i = col; i < 9; i++) {
 				if ((grid.getBoardPieceAt(row, i).getPieceType().equals("N")) && (count < 1)) {
 					grid.setBoardPieceAt(row, i, a);
+					ninjaGotShot = true;
 					count++;
 				}
 			}
@@ -141,13 +151,14 @@ public class GameEngine {
 			for (int i = row; i < 9; i++) {
 				if ((grid.getBoardPieceAt(i, col).getPieceType().equals("N")) && (count < 1)) {
 					grid.setBoardPieceAt(i, col, a);
+					ninjaGotShot = true;
 					count++;
 				}
 			}
 		}
 
 		((Spy) (grid.getBoardPieceAt(row, col))).setAmmoCount(0);
-		System.out.println(((Spy) (grid.getBoardPieceAt(row, col))).getAmmoCount());
+
 	}
 
 	public void lookAround() {
@@ -169,100 +180,172 @@ public class GameEngine {
 
 	}
 
-	public void look(String direction) {
+	public void look(int x) {
 		int i = grid.findSpy()[0];
 		int j = grid.findSpy()[1];
 		BoardPiece a;
+		BoardPiece b;
+		ninjaSpotted = false;
 
-		if (direction.toLowerCase().equals("w")) {
+		if (x == 0) {
 			a = grid.getBoardPieceAt(i - 2, j);
-			a = grid.getBoardPieceAt(i - 3, j);
 			a.setIsVisible(true);
-		} else if (direction.toLowerCase().equals("a")) {
+			if (grid.getBoardPieceAt(i - 1, j).getPieceType().equals("N")
+					|| grid.getBoardPieceAt(i - 2, j).getPieceType().equals("N")) {
+				ninjaSpotted = true;
+			}
+
+			if (i > 2) {
+				b = grid.getBoardPieceAt(i - 3, j);
+				b.setIsVisible(true);
+				if (grid.getBoardPieceAt(i - 3, j).getPieceType().equals("N")) {
+					ninjaSpotted = true;
+				}
+			}
+
+		} else if (x == 1) {
 			a = grid.getBoardPieceAt(i, j - 2);
-			a = grid.getBoardPieceAt(i, j - 3);
 			a.setIsVisible(true);
-		} else if (direction.toLowerCase().equals("s")) {
+			if (grid.getBoardPieceAt(i, j - 1).getPieceType().equals("N")
+					|| grid.getBoardPieceAt(i, j - 2).getPieceType().equals("N")) {
+				ninjaSpotted = true;
+			}
+
+			if (j > 2) {
+				b = grid.getBoardPieceAt(i, j - 3);
+				b.setIsVisible(true);
+				if (grid.getBoardPieceAt(i, j - 3).getPieceType().equals("N")) {
+					ninjaSpotted = true;
+				}
+			}
+
+		} else if (x == 2) {
 			a = grid.getBoardPieceAt(i + 2, j);
-			a = grid.getBoardPieceAt(i + 3, j);
 			a.setIsVisible(true);
-		} else if (direction.toLowerCase().equals("d")) {
+			if (grid.getBoardPieceAt(i + 1, j).getPieceType().equals("N")
+					|| grid.getBoardPieceAt(i + 2, j).getPieceType().equals("N")) {
+				ninjaSpotted = true;
+			}
+
+			if (i < 7) {
+				b = grid.getBoardPieceAt(i + 3, j);
+				b.setIsVisible(true);
+				if (grid.getBoardPieceAt(i + 3, j).getPieceType().equals("N")) {
+					ninjaSpotted = true;
+				}
+			}
+
+		} else if (x == 3) {
 			a = grid.getBoardPieceAt(i, j + 2);
-			a = grid.getBoardPieceAt(i, j + 3);
 			a.setIsVisible(true);
+			if (grid.getBoardPieceAt(i, j + 1).getPieceType().equals("N")
+					|| grid.getBoardPieceAt(i, j + 2).getPieceType().equals("N")) {
+				ninjaSpotted = true;
+			}
+
+			if (j < 7) {
+				b = grid.getBoardPieceAt(i, j + 3);
+				b.setIsVisible(true);
+				;
+				if (grid.getBoardPieceAt(i, j + 3).getPieceType().equals("N")) {
+					ninjaSpotted = true;
+				}
+			}
 		}
+
 	}
 
-	public void canSpyMove(int direction) {
+	public boolean canSpyLook(int i) {
+		int[] spyPos = grid.findSpy();
+		int a = spyPos[0];
+		int b = spyPos[1];
+		boolean canLook = true;
+
+		if (i == 0) {
+			if (a < 2)
+				canLook = false;
+		} else if (i == 1) {
+			if (b < 2)
+				canLook = false;
+		} else if (i == 2) {
+			if (a > 6)
+				canLook = false;
+		} else if (i == 3) {
+			if (b > 6)
+				canLook = false;
+		}
+
+		return canLook;
+	}
+
+	public boolean canSpyMove(int direction) {
 		int[] spyPos = grid.findSpy();
 		int a = spyPos[0];
 		int b = spyPos[1];
 		// up
 		if (direction == 0) {
-			if (grid.getBoardPieceAt(spyPos[0] + 1, spyPos[1]).getPieceType().equals("U")
-					|| grid.getBoardPieceAt(spyPos[0] + 1, spyPos[1]).getPieceType().equals("X")) {
-				canMove = false;
-				cannotEnter = 0;
-			} else if (a == 0) {
-				canMove = false;
+			if (a == 0) {
 				cannotEnter = 1;
+				return false;
+			} else if (grid.getBoardPieceAt(spyPos[0] - 1, spyPos[1]).getPieceType().equals("U")
+					|| grid.getBoardPieceAt(spyPos[0] - 1, spyPos[1]).getPieceType().equals("X")) {
+				cannotEnter = 0;
+				return false;
 			} else
-				canMove = true;
+				return true;
 			// left
 		} else if (direction == 1) {
-			if (grid.getBoardPieceAt(spyPos[0], spyPos[1] - 1).getPieceType().equals("U")
-					|| grid.getBoardPieceAt(spyPos[0], spyPos[1] - 1).getPieceType().equals("X")) {
-				canMove = false;
-				cannotEnter = 0;
-			} else if (b == 0) {
-				canMove = false;
+			if (b == 0) {
 				cannotEnter = 1;
+				return false;
+			} else if (grid.getBoardPieceAt(spyPos[0], spyPos[1] - 1).getPieceType().equals("U")
+					|| grid.getBoardPieceAt(spyPos[0], spyPos[1] - 1).getPieceType().equals("X")) {
+				cannotEnter = 0;
+				return false;
 			} else
-				canMove = true;
+				return true;
 			// down
 		} else if (direction == 2) {
 			if (a == 8) {
-				canMove = false;
+				return false;
 			} else
-				canMove = true;
+				return true;
 			// right
 		} else if (direction == 3) {
-			if (grid.getBoardPieceAt(spyPos[0], spyPos[1] + 1).getPieceType().equals("U")
-					|| grid.getBoardPieceAt(spyPos[0], spyPos[1] + 1).getPieceType().equals("X")) {
-				canMove = false;
-				cannotEnter = 0;
-			} else if (b == 8) {
-				canMove = false;
+			if (b == 8) {
 				cannotEnter = 1;
+				return false;
+			} else if (grid.getBoardPieceAt(spyPos[0], spyPos[1] + 1).getPieceType().equals("U")
+					|| grid.getBoardPieceAt(spyPos[0], spyPos[1] + 1).getPieceType().equals("X")) {
+				cannotEnter = 0;
+				return false;
 			} else
-				canMove = true;
-		}
-	}
-
-	public boolean getCanMove() {
-		return canMove;
+				return true;
+		} else
+			return false;
 	}
 
 	public void ninjaStab() {
-		int[] ninjaPos = new int[grid.findNinja().size()];
-		for (int i = 0; i < grid.findNinja().size(); i++) {
-			ninjaPos[i] = grid.findNinja().get(i);
-		}
-		int[] spyPos = grid.findSpy();
-		int c = spyPos[0];
-		int d = spyPos[1];
-		int count2 = 0;
-		for (int i = 0; i < grid.findNinja().size(); i += 2) {
-			int a = ninjaPos[i];
-			int b = ninjaPos[i + 1];
-			if (((a + 1) == c) && b == d) {
-				isAlive = false;
-			} else if (((a - 1) == c) && b == d) {
-				isAlive = false;
-			} else if (((b - 1) == d) && c == a) {
-				isAlive = false;
-			} else if (((b + 1) == d) && c == a) {
-				isAlive = false;
+		if (!isInvincible) {
+			int[] ninjaPos = new int[grid.findNinja().size()];
+			for (int i = 0; i < grid.findNinja().size(); i++) {
+				ninjaPos[i] = grid.findNinja().get(i);
+			}
+			int[] spyPos = grid.findSpy();
+			int c = spyPos[0];
+			int d = spyPos[1];
+			for (int i = 0; i < grid.findNinja().size(); i += 2) {
+				int a = ninjaPos[i];
+				int b = ninjaPos[i + 1];
+				if (((a + 1) == c) && b == d) {
+					isAlive = false;
+				} else if (((a - 1) == c) && b == d) {
+					isAlive = false;
+				} else if (((b - 1) == d) && c == a) {
+					isAlive = false;
+				} else if (((b + 1) == d) && c == a) {
+					isAlive = false;
+				}
 			}
 		}
 	}
@@ -292,7 +375,8 @@ public class GameEngine {
 				if (moveDir == 0) {
 					if (ninjaPos[i] - 1 > 0) {
 						if (grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("U")
-								|| grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("X")) {
+								|| grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("X")
+								|| grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("S")) {
 							notAvailable = true;
 						} else {
 							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] - 1, ninjaPos[i + 1]);
@@ -309,7 +393,8 @@ public class GameEngine {
 				else if (moveDir == 1) {
 					if (ninjaPos[i] + 1 < 8) {
 						if (grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("U")
-								|| grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("X")) {
+								|| grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("X")
+								|| grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("S")) {
 							notAvailable = true;
 						} else {
 							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] + 1, ninjaPos[i + 1]);
@@ -324,7 +409,8 @@ public class GameEngine {
 				else if (moveDir == 2) {
 					if (ninjaPos[i + 1] - 1 > 0) {
 						if (grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("U")
-								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("X")) {
+								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("X")
+								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("S")) {
 							notAvailable = true;
 						} else {
 							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1] - 1);
@@ -339,7 +425,9 @@ public class GameEngine {
 				else if (moveDir == 3) {
 					if (ninjaPos[i + 1] + 1 < 8) {
 						if (grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] + 1).getPieceType().equals("U")
-								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] + 1).getPieceType().equals("X")) {
+								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] + 1).getPieceType().equals("X")
+								|| grid.getBoardPieceAt(ninjaPos[i + 1], ninjaPos[i + 1] + 1).getPieceType()
+										.equals("S")) {
 							notAvailable = true;
 						} else {
 							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1] + 1);
@@ -382,7 +470,7 @@ public class GameEngine {
 		grid.setBoardPieceAt(7, 0, r);
 		grid.setBoardPieceAt(5, 0, b);
 		grid.setBoardPieceAt(1, 0, n);
-		// grid.setBoardPieceAt(7, 0, m);
+		grid.setBoardPieceAt(6, 0, m);
 
 		grid.debug(a);
 	}
@@ -397,6 +485,13 @@ public class GameEngine {
 		else
 			return false;
 	}
+	
+	public boolean gameLost(){
+		if (getNumberOfLives() == 0)
+			return true;
+		else
+			return false;
+	}
 
 	public boolean wrongRoom() {
 		int[] findSpy = grid.findSpy();
@@ -405,11 +500,11 @@ public class GameEngine {
 
 		// if wrong room is true, it swaps the spy back to its position
 		boolean isWrongRoom = false;
-		for(int i = 0; i < 9; i++){
-			if(!((Room) (grid.getBoardPieceAt(roomRows[i], roomCols[i]))).getHasBriefcase()){
+		for (int i = 0; i < 9; i++) {
+			if (!((Room) (grid.getBoardPieceAt(roomRows[i], roomCols[i]))).getHasBriefcase()) {
 				isWrongRoom = true;
-				swap(findSpy[0], findSpy[1], findSpy[0] - 1, findSpy[1]);				
-			} else{
+				swap(findSpy[0], findSpy[1], findSpy[0] - 1, findSpy[1]);
+			} else {
 				isWrongRoom = false;
 			}
 		}
@@ -458,6 +553,36 @@ public class GameEngine {
 
 	public int[] briefcasePosition() {
 		return grid.findBriefCase();
+	}
+
+	public boolean getIsInvincible() {
+		return isInvincible;
+	}
+
+	public int getNumberOfBullets() {
+		int[] spyPos = grid.findSpy();
+		int c = spyPos[0];
+		int d = spyPos[1];
+		return ((Spy) (grid.getBoardPieceAt(c, d))).getAmmoCount();
+	}
+
+	public boolean getNinjaGotShot() {
+		return ninjaGotShot;
+	}
+
+	public boolean getNinjaSpotted() {
+		return ninjaSpotted;
+	}
+
+	public int getCannotEnter() {
+		return cannotEnter;
+	}
+	
+	public int getNumberOfLives(){
+		int[] spyPos = grid.findSpy();
+		int c = spyPos[0];
+		int d = spyPos[1];
+		return ((Spy) (grid.getBoardPieceAt(c, d))).getNumberOfLives();
 	}
 
 }

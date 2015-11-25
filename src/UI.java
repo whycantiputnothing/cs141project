@@ -5,6 +5,8 @@ public class UI {
 
 	private GameEngine GE = null;
 	private Scanner in = null;
+	private int option;
+	String[] choice = { "w", "a", "s", "d" };
 
 	public UI(GameEngine game) {
 		GE = game;
@@ -21,6 +23,7 @@ public class UI {
 
 	public void startGame() {
 		welcomeMessage();
+		GE.reset();
 		boolean quit = false;
 		while (!quit) {
 			int option = mainMenu();
@@ -30,7 +33,7 @@ public class UI {
 				gameLoop();
 				break;
 			case 2:
-				// GE.loadGame();
+				GE = SaveLoad.Load();
 				break;
 			case 3:
 				System.exit(0);
@@ -42,84 +45,120 @@ public class UI {
 	}
 
 	private void gameLoop() {
-		GE.reset();
-		GE.debug(true);
+//		GE.debug(true);
 		System.out.println("New game started.\n");
 
-		String[] choice = { "w", "a", "s", "d" };
+		
 
-		while (!GE.gameWon()) {
+		while (!GE.gameWon()&&!GE.gameLost()) {
 			powerUp();
+			GE.lookAround();
 			
-			GE.printGrid();
-			int option;
+			System.out.println(GE.gridToString());
 			System.out.println("What would you like to do?:\n" + "(0)Look (1)Save Game (2)Quit");
 			option = in.nextInt();
 			in.nextLine();
+			
 			if (option == 1) {
-
+				SaveLoad.Save(GE);
 			} else if (option == 2) {
-
+				System.exit(0);
 			} else if (option == 0) {
-				boolean turn = true;
-				while (turn) {
-					System.out.println("What direction would you like to look?:\n" + "(0)Up (1)Left (2)Down (3)Right");
-					option = in.nextInt();
-					in.nextLine();
-					if (option < 0 || option > 3) {
-						System.out.println("Please input a valid choice");
-					} else {
-						GE.look(choice[option]);
-						GE.printGrid();
-						while (turn) {
-							System.out.println("What would you like to do?:\n" + "(0)Move (1)Shoot (2)Check Ammo");
-							option = in.nextInt();
-							in.nextLine();
-							if (option == 1) {
-								System.out.println("What direction would you like to shoot?:\n"
-										+ "(0)Up (1)Left (2)Down (3)Right");
-								option = in.nextInt();
-								in.nextLine();
-								if (option < 0 || option > 3) {
-									System.out.println("Please input an integer between 0 and 3");
-								} else {
-									GE.shoot(choice[option]);
-									GE.takeTurn();
-									turn = false;
-								}
-
-							} else if (option == 2) {
-
-							} else if (option == 0) {
-								System.out.println(
-										"What direction would you like to move?:\n" + "(0)Up (1)Left (2)Down (3)Right");
-								option = in.nextInt();
-								in.nextLine();
-								if (option < 0 || option > 3) {
-									System.out.println("Please input a integer between 0 and 3");
-								} else {
-									if (GE.canSpyMove(choice[option])) {
-										GE.moveSpy(choice[option]);
-										GE.takeTurn();
-										turn = false;
-									} else
-										System.out.println("You cannot move there");
-								}
-
-							} else {
-								System.out.println("Please input an integer between 0 and 2");
-							}
-						}
-					}
-				}
+				choice1();
+				System.out.println(GE.gridToString());
+				choice2();
 
 			} else {
-				System.out.println("Please input an integer between 0 and 3");
+				System.out.println("Please input an integer between 0 and 2");
 			}
-			//GE.moveNinja();
+			GE.moveNinja();
 			GE.ninjaStab();
 			dead();
 		}
+		gameOver();
+	}
+	
+	private void choice1() {
+		boolean turn = true;
+		while (turn) {
+			System.out.println("What direction would you like to look?:\n" + "(0)Up (1)Left (2)Down (3)Right");
+			option = in.nextInt();
+			in.nextLine();
+			if (option < 0 || option > 3) {
+				System.out.println("Please input an integer between 0 and 3");
+			} 
+			else if(GE.canSpyLook(option)){
+					GE.look(option);
+					if(GE.getNinjaSpotted()){
+						System.out.println("Ninja ahead!");
+					}
+					else{
+						System.out.println("The coast is clear!");
+					}
+					turn = false;
+					
+				}
+			else {
+				System.out.println("There is nothing to see there");
+			}
+		}
+	}
+	
+	private void choice2(){
+		boolean turn = true;
+		while (turn) {
+			System.out.println("What would you like to do?:\n" + "(0)Move (1)Shoot (2)Check Ammo");
+			option = in.nextInt();
+			in.nextLine();
+			if (option == 1) {
+				if(GE.getNumberOfBullets() == 1){
+					System.out.println("What direction would you like to shoot?:\n"
+							+ "(0)Up (1)Left (2)Down (3)Right");
+					option = in.nextInt();
+					in.nextLine();
+					if (option < 0 || option > 3) {
+						System.out.println("Please input an integer between 0 and 3");
+					} else {
+						GE.shoot(choice[option]);
+						ninjaShot();
+						GE.takeTurn();
+						turn = false;
+					}
+				}
+				else
+					System.out.println("Your gun has no bullets in it");
+				
+			} else if (option == 2) {
+				System.out.println("You have " + GE.getNumberOfBullets() + " bullets remaining");
+				
+			} else if (option == 0) {
+				System.out.println(
+						"What direction would you like to move?:\n" + "(0)Up (1)Left (2)Down (3)Right");
+				option = in.nextInt();
+				in.nextLine();
+				if (option < 0 || option > 3) {
+					System.out.println("Please input a integer between 0 and 3");
+				} else {
+					if (GE.canSpyMove(option)) {
+						GE.moveSpy(choice[option]);
+						GE.takeTurn();
+						turn = false;
+					} 
+						else{
+							if(GE.getCannotEnter() == 0){
+								System.out.println("You can only enter a room from the top");
+							}
+							else{
+								System.out.println("You have hit a wall. You cannot move there");
+							}
+						}
+				}
+				
+			} else {
+				System.out.println("Please input an integer between 0 and 2");
+			}
+		}
+		
 	}
 
 	private void welcomeMessage() {
@@ -129,6 +168,7 @@ public class UI {
 	private void dead() {
 		if (GE.getIsAlive() == false) {
 			System.out.println("A ninja has stabbed you");
+			System.out.println("You have " + (GE.getNumberOfLives() - 1) + " lives remaining");
 			GE.respawn();
 		}
 	}
@@ -155,15 +195,50 @@ public class UI {
 				GE.setGotPowerUp(false);
 			}
 			else {
-				if(GE.getNumberOfMoves() == GE.getNumberOfMovesCounter()){
+				if(s.equals("Invincibility")){
 					System.out.println("You picked up the Power Up: " + s);
+					GE.setGotPowerUp(false);
 				}
 			}
-			
-			if((GE.getNumberOfMoves()-GE.getNumberOfMovesCounter() > 0) && (GE.getNumberOfMoves() - GE.getNumberOfMovesCounter() < 5 ))
-				System.out.println("You have " + (5 - (GE.getNumberOfMoves() - GE.getNumberOfMovesCounter())) + " turns of invinicibility left");
 		}
+		if(GE.getIsInvincible())
+			System.out.println("You have " + (5 - (GE.getNumberOfMoves() - GE.getNumberOfMovesCounter())) + " moves of invinicibility remaining");
 		GE.resetPowerUpName();
+	}
+	
+	private void ninjaShot(){
+		if(GE.getNinjaGotShot()){
+			System.out.println("You have killed a ninja!");
+		}
+		else
+			System.out.println("Your bullet hit nothing");
+	}
+	
+	private void gameOver(){
+		if(GE.gameLost()){
+			System.out.println("Game Over");
+			System.out.println("Please choose an option:\n" + "\t1. Main Menu\n" + "\t2. Quit\n");
+			option = in.nextInt();
+			in.nextLine();
+			if (option == 1){
+				startGame();
+			}
+			else
+				System.exit(0);
+		}
+		else if(GE.gameWon()){
+			System.out.println("Congradulations! You have found the briefcase!");
+			System.out.println("It only took you " + GE.getNumberOfMoves() + " moves");
+			System.out.println("Please choose an option:\n" + "\t1. Main Menu\n" + "\t2. Quit\n");
+			option = in.nextInt();
+			in.nextLine();
+			if (option == 1){
+				startGame();
+			}
+			else
+				System.exit(0);
+			
+		}
 	}
 
 }

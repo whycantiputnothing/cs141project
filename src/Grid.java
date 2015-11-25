@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class Grid {
+public class Grid implements Serializable{
 
 	private BoardPiece[][] grid = new BoardPiece[9][9];
 
