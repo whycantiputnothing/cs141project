@@ -59,13 +59,13 @@ public void look(int x) {
 				ninjaSpotted = true;
 			}
 			
-			if (j < 7)
+			if (j < 7){
 			b = grid.getBoardPieceAt(i, j + 3);
 			b.setIsVisible(true);;
 				if (grid.getBoardPieceAt(i, j + 3).equals("N")){
 				ninjaSpotted = true;
 			}
-			
+			}
 		}
 		
 	}
