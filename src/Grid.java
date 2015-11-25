@@ -218,8 +218,12 @@ public class Grid {
 				p.setIsVisible(a);
 				if(p.getPieceType().equals("X"))
 					p.setIsVisible(true);
-				if (p.getPieceType().equals("U"))
+				if (p.getPieceType().equals("U")){
 					p.setIsVisible(true);
+					if(((Room)(p)).getHasBriefcase()){
+						((Room)(p)).setIsBriefcaseVisible(true);
+					}
+				}
 				if (p.getPieceType().equals("S"))
 					p.setIsVisible(true);
 			}

@@ -28,18 +28,18 @@ public class GameEngine {
 
 	public void getBullet(int x, int y) {
 		BoardPiece delete = new BoardPiece(" ");
-		powerUpName = "Extra Bullet";
+		System.out.println(((Spy) (grid.getBoardPieceAt(grid.findSpy()[0], grid.findSpy()[1]))).getAmmoCount());
 		int ammoCount = ((Spy) (grid.getBoardPieceAt(grid.findSpy()[0], grid.findSpy()[1]))).getAmmoCount();
-		if (ammoCount == 0) {
-			if (grid.getBoardPieceAt(x, y).getPieceType().equals("B")) {
-				grid.setBoardPieceAt(x, y, delete);
-				hasExtraBullet = true;
-				ammoCount++;
-			}
-		} else if (ammoCount == 1) {
-			if (grid.getBoardPieceAt(x, y).getPieceType().equals("B")) {
-				grid.setBoardPieceAt(x, y, delete);
+		if (grid.getBoardPieceAt(x, y).getPieceType().equals("B")){
+			grid.setBoardPieceAt(x, y, delete);
+			powerUpName = "Extra Bullet";
+			gotPowerUp = true;
+			if (ammoCount == 1){
 				hasExtraBullet = false;
+			}
+			else {
+				hasExtraBullet = true;
+				((Spy) (grid.getBoardPieceAt(grid.findSpy()[0], grid.findSpy()[1]))).setAmmoCount(1);
 			}
 		}
 	}
@@ -48,12 +48,30 @@ public class GameEngine {
 		int briefRow = grid.findBriefCase()[0];
 		int briefCol = grid.findBriefCase()[1];
 		BoardPiece delete = new BoardPiece(" ");
-		powerUpName = "Radar";
 		
 		if (grid.getBoardPieceAt(x, y).getPieceType().equals("R")) {
 			grid.setBoardPieceAt(x, y, delete);
+			powerUpName = "Radar";
 			gotPowerUp = true;
 			((Room)(grid.getBoardPieceAt(briefRow, briefCol))).setIsBriefcaseVisible(true);;
+		}
+	}
+	
+	public void getInvincibility(int x, int y) {
+		BoardPiece delete = new BoardPiece(" ");
+	
+		if (grid.getBoardPieceAt(x, y).getPieceType().equals("I")) {
+			grid.setBoardPieceAt(x, y, delete);
+			powerUpName = "Invincibility";
+			gotPowerUp = true;
+			
+			int a = numberOfMoves + 1;
+			
+			numberOfMovesCounter = a;
+
+			if (numberOfMovesCounter < numberOfMoves + 5) {
+				isAlive = true;
+			}
 		}
 	}
 	
@@ -124,8 +142,8 @@ public class GameEngine {
 				}
 			}
 		}
-		int ammo = ((Spy) (grid.getBoardPieceAt(row, col))).getAmmoCount();
-		((Spy) (grid.getBoardPieceAt(row, col))).setAmmoCount(ammo - 1);
+		
+		((Spy) (grid.getBoardPieceAt(row, col))).setAmmoCount(0);
 		System.out.println(((Spy) (grid.getBoardPieceAt(row, col))).getAmmoCount());
 	}
 
@@ -209,11 +227,10 @@ public class GameEngine {
 		int[] spyPos = grid.findSpy();
 		int c = spyPos[0];
 		int d = spyPos[1];
-		int count = 0;
 		int count2 = 0;
-		while (count < grid.findNinja().size()) {
-			int a = ninjaPos[count2];
-			int b = ninjaPos[count2 + 1];
+		for (int i = 0; i < grid.findNinja().size(); i +=2) {
+			int a = ninjaPos[i];
+			int b = ninjaPos[i+1];
 			if (((a + 1) == c) && b == d) {
 				isAlive = false;
 			} else if (((a - 1) == c) && b == d) {
@@ -223,7 +240,6 @@ public class GameEngine {
 			} else if (((b + 1) == d) && c == a) {
 				isAlive = false;
 			}
-			count++;
 		}
 	}
 
@@ -324,23 +340,8 @@ public class GameEngine {
 		int[] spyPos = grid.findSpy();
 		BoardPiece a = grid.getBoardPieceAt(spyPos[0], spyPos[1]);
 		((Spy) (a)).death();
-		grid.setBoardPieceAt(spyPos[0], spyPos[1], a);
+		swap(8, 0, spyPos[0], spyPos[1]);
 		isAlive = true;
-	}
-
-	public void getInvincibility(int x, int y) {
-		BoardPiece delete = new BoardPiece(" ");
-
-		numberOfMovesCounter = numberOfMoves + 1;
-
-		if (grid.getBoardPieceAt(x, y).getPieceType().equals("I")) {
-			grid.setBoardPieceAt(x, y, delete);
-
-			while (numberOfMovesCounter < numberOfMoves + 5) {
-				isAlive = true;
-			}
-		}
-
 	}
 
 	public void reset() {
@@ -354,10 +355,11 @@ public class GameEngine {
 		BoardPiece b = new BoardPiece("B");
 		BoardPiece r = new PowerUps("R");
 		BoardPiece m = new PowerUps("I");
-		grid.setBoardPieceAt(6, 0, r);
+		grid.setBoardPieceAt(7, 0, r);
 		grid.setBoardPieceAt(5, 0, b);
 		grid.setBoardPieceAt(1, 0, n);
 	//	grid.setBoardPieceAt(7, 0, m);
+		
 		grid.debug(a);
 	}
 
@@ -402,6 +404,10 @@ public class GameEngine {
 
 	public String getPowerUpName() {
 		return powerUpName;
+	}
+	
+	public void resetPowerUpName() {
+		powerUpName = "";
 	}
 
 	public boolean getHasExtraBullet() {

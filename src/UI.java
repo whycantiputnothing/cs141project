@@ -50,7 +50,6 @@ public class UI {
 
 		while (!GE.gameWon()) {
 			powerUp();
-			dead();
 			
 			GE.printGrid();
 			int option;
@@ -117,7 +116,9 @@ public class UI {
 			} else {
 				System.out.println("Please input an integer between 0 and 3");
 			}
-			GE.moveNinja();
+			//GE.moveNinja();
+			GE.ninjaStab();
+			dead();
 		}
 	}
 
@@ -126,7 +127,7 @@ public class UI {
 	}
 
 	private void dead() {
-		if (!GE.getIsAlive()) {
+		if (GE.getIsAlive() == false) {
 			System.out.println("A ninja has stabbed you");
 			GE.respawn();
 		}
@@ -148,8 +149,8 @@ public class UI {
 				System.out.println("You picked up the Power Up: " + s);
 				int a = GE.briefcasePosition()[0];
 				int b = GE.briefcasePosition()[1];
-				String[] rows = {"top", "middle", "bottom"};
-				String[] cols = {"left", "center","", "right"};
+				String[] rows = {"top","", "middle", "bottom"};
+				String[] cols = {"left","", "center", "right"};
 				System.out.println("The briefcase is in the " + rows[a/2] + " " + cols[b/2] + " room");
 				GE.setGotPowerUp(false);
 			}
@@ -162,6 +163,7 @@ public class UI {
 			if((GE.getNumberOfMoves()-GE.getNumberOfMovesCounter() > 0) && (GE.getNumberOfMoves() - GE.getNumberOfMovesCounter() < 5 ))
 				System.out.println("You have " + (5 - (GE.getNumberOfMoves() - GE.getNumberOfMovesCounter())) + " turns of invinicibility left");
 		}
+		GE.resetPowerUpName();
 	}
 
 }
