@@ -7,52 +7,65 @@ public void look(int x) {
 		if (x == 0) {
 			a = grid.getBoardPieceAt(i - 2, j);
 			a.setIsVisible(true);
+			if (grid.getBoardPieceAt(i - 1, j).equals("N") || grid.getBoardPieceAt(i - 2, j).equals("N")){
+				ninjaSpotted = true;
+			}
 			
 			if (i > 2){
 			b = grid.getBoardPieceAt(i - 3, j);
 			b.setIsVisible(true);
+				if(grid.getBoardPieceAt(i - 3, j).equals("N")){
+					ninjaSpotted = true;
+				}
 			}
 			
-			if (grid.getBoardPieceAt(i - 1, j).equals("N") || grid.getBoardPieceAt(i - 2, j).equals("N")
-					|| grid.getBoardPieceAt(i - 3, j).equals("N")){
-				ninjaSpotted = true;
-			}
+			
 		} else if (x == 1) {
 			a = grid.getBoardPieceAt(i, j - 2);
 			a.setIsVisible(true);
+			if (grid.getBoardPieceAt(i, j - 1).equals("N") || grid.getBoardPieceAt(i, j - 2).equals("N")){
+				ninjaSpotted = true;
+			}
 			
 			if (j > 2){
 			b = grid.getBoardPieceAt(i, j - 3);
 			b.setIsVisible(true);
+				if (grid.getBoardPieceAt(i, j - 3).equals("N")){
+					ninjaSpotted = true;
+				}
 			}
 			
-			if (grid.getBoardPieceAt(i, j - 1).equals("N") || grid.getBoardPieceAt(i, j - 2).equals("N")
-					|| grid.getBoardPieceAt(i, j - 3).equals("N")){
-				ninjaSpotted = true;
-			}
+			
 		} else if (x == 2) {
 			a = grid.getBoardPieceAt(i + 2, j);
 			a.setIsVisible(true);
+			if (grid.getBoardPieceAt(i + 1, j).equals("N") || grid.getBoardPieceAt(i + 2, j).equals("N")){
+				ninjaSpotted = true;
+			}
 			
 			if (i < 7){
 			b = grid.getBoardPieceAt(i + 3, j);			
 			b.setIsVisible(true);
+				if (grid.getBoardPieceAt(i + 3, j).equals("N")){
+					ninjaSpotted = true;
+				}
 			}
 			
-			if (grid.getBoardPieceAt(i + 1, j).equals("N") || grid.getBoardPieceAt(i + 2, j).equals("N")
-					|| grid.getBoardPieceAt(i + 3, j).equals("N")){
-				ninjaSpotted = true;
-			}
+			
 		} else if (x == 3) {
 			a = grid.getBoardPieceAt(i, j + 2);
 			a.setIsVisible(true); 
-			b = grid.getBoardPieceAt(i, j + 3);
-			
-			b.setIsVisible(true);
-			if (grid.getBoardPieceAt(i, j + 1).equals("N") || grid.getBoardPieceAt(i, j + 2).equals("N")
-					|| grid.getBoardPieceAt(i, j + 3).equals("N22")){
+			if (grid.getBoardPieceAt(i, j + 1).equals("N") || grid.getBoardPieceAt(i, j + 2).equals("N")){
 				ninjaSpotted = true;
 			}
+			
+			if (j < 7)
+			b = grid.getBoardPieceAt(i, j + 3);
+			b.setIsVisible(true);;
+				if (grid.getBoardPieceAt(i, j + 3).equals("N")){
+				ninjaSpotted = true;
+			}
+			
 		}
 		
 	}
@@ -79,3 +92,4 @@ public void look(int x) {
 		
 		return canLook;
 	}
+		
