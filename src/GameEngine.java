@@ -358,21 +358,15 @@ public class GameEngine implements Serializable {
 			ninjaPos[i] = grid.findNinja().get(i);
 		}
 		boolean notAvailable = false;
-		int[] randomNums = { 9, 9, 9, 9, 9, 9, 9 };
 
+		
+		
 		for (int i = 0; i < ninjaPos.length - 1; i += 2) {
-			int count = 3;
+			int count = 0;
+			
 			do {
-
 				int moveDir = grid.randNinjaMove();
-				// int moveDir = 0;
-				if (count > 3) {
-					while (moveDir == randomNums[count] || moveDir == randomNums[count - 1]
-							|| moveDir == randomNums[count - 2] || moveDir == randomNums[count - 3]) {
-						moveDir = grid.randNinjaMove();
-					}
-				}
-
+			
 				// up
 				if (moveDir == 0) {
 					if (ninjaPos[i] - 1 > 0) {
@@ -380,15 +374,15 @@ public class GameEngine implements Serializable {
 								|| grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("X")
 								|| grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("S")) {
 							notAvailable = true;
+							count++;
 						} else {
 							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] - 1, ninjaPos[i + 1]);
-
 							notAvailable = false;
 						}
 					} else {
 						notAvailable = true;
+						count++;
 					}
-
 				}
 
 				// down
@@ -398,12 +392,14 @@ public class GameEngine implements Serializable {
 								|| grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("X")
 								|| grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("S")) {
 							notAvailable = true;
+							count++;
 						} else {
 							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] + 1, ninjaPos[i + 1]);
 							notAvailable = false;
 						}
 					} else {
 						notAvailable = true;
+						count++;
 					}
 				}
 
@@ -414,12 +410,14 @@ public class GameEngine implements Serializable {
 								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("X")
 								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("S")) {
 							notAvailable = true;
+							count++;
 						} else {
 							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1] - 1);
 							notAvailable = false;
 						}
 					} else {
 						notAvailable = true;
+						count++;
 					}
 				}
 
@@ -431,19 +429,20 @@ public class GameEngine implements Serializable {
 								|| grid.getBoardPieceAt(ninjaPos[i + 1], ninjaPos[i + 1] + 1).getPieceType()
 										.equals("S")) {
 							notAvailable = true;
+							count++;
 						} else {
 							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1] + 1);
 							notAvailable = false;
 						}
 					} else {
 						notAvailable = true;
+						count++;
 					}
 				}
 
-				randomNums[count] = moveDir;
-
-				count++;
-				if (count == 7) {
+				
+				if (count == 4) {
+//					swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1]);
 					notAvailable = false;
 				}
 			} while (notAvailable);
@@ -526,7 +525,7 @@ public class GameEngine implements Serializable {
 					
 				}
 				else {
-					temp.setIsVisible(false);
+					temp.setIsVisible(true);
 					grid.setBoardPieceAt(i, j, temp);
 				}
 			}

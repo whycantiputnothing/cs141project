@@ -45,7 +45,7 @@ public class UI {
 	}
 
 	private void gameLoop() {
-//		GE.debug(true);
+		//GE.debug(true);
 		System.out.println("New game started.\n");
 
 		
