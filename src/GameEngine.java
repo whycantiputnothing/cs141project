@@ -24,7 +24,7 @@ public class GameEngine implements Serializable {
 
 	private boolean ninjaSpotted;
 	
-	private boolean isRoomEmpty;
+	private boolean roomBlock;
 
 	private Grid grid = new Grid();
 
@@ -81,7 +81,7 @@ public class GameEngine implements Serializable {
 
 			isInvincible = true;
 		}
-		if (numberOfMoves - numberOfMovesCounter == 5) {
+		if (numberOfMoves - numberOfMovesCounter > 4) {
 			isInvincible = false;
 		}
 	}
@@ -93,24 +93,24 @@ public class GameEngine implements Serializable {
 		grid.setBoardPieceAt(y, z, a);
 	}
 
-	public void moveSpy(String s) {
+	public void moveSpy(int x) {
 
-		if (s.toLowerCase().equals("w")) {
+		if (x == 0) {
 			getRadar(grid.findSpy()[0] - 1, grid.findSpy()[1]);
 			getBullet(grid.findSpy()[0] - 1, grid.findSpy()[1]);
 			getInvincibility(grid.findSpy()[0] - 1, grid.findSpy()[1]);
 			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0] - 1, grid.findSpy()[1]);
-		} else if (s.toLowerCase().equals("a")) {
+		} else if (x == 1) {
 			getRadar(grid.findSpy()[0], grid.findSpy()[1] - 1);
 			getBullet(grid.findSpy()[0], grid.findSpy()[1] - 1);
 			getInvincibility(grid.findSpy()[0], grid.findSpy()[1] - 1);
 			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0], grid.findSpy()[1] - 1);
-		} else if (s.toLowerCase().equals("s")) {
+		} else if (x == 2) {
 			getRadar(grid.findSpy()[0] + 1, grid.findSpy()[1]);
 			getBullet(grid.findSpy()[0] + 1, grid.findSpy()[1]);
 			getInvincibility(grid.findSpy()[0] + 1, grid.findSpy()[1]);
 			swap(grid.findSpy()[0], grid.findSpy()[1], grid.findSpy()[0] + 1, grid.findSpy()[1]);
-		} else if (s.toLowerCase().equals("d")) {
+		} else if (x == 3) {
 			getRadar(grid.findSpy()[0], grid.findSpy()[1] + 1);
 			getBullet(grid.findSpy()[0], grid.findSpy()[1] + 1);
 			getInvincibility(grid.findSpy()[0], grid.findSpy()[1] + 1);
@@ -118,14 +118,14 @@ public class GameEngine implements Serializable {
 		}
 	}
 
-	public void shoot(String s) {
+	public void shoot(int x) {
 		BoardPiece a = new BoardPiece(" ");
 		ninjaGotShot = false;
 		int row = grid.findSpy()[0];
 		int col = grid.findSpy()[1];
 		int count = 0;
 
-		if (s.toLowerCase().equals("a")) {
+		if (x == 1) {
 			for (int i = col; i >= 0; i--) {
 				if ((grid.getBoardPieceAt(row, i).getPieceType().equals("N")) && (count < 1)) {
 					grid.setBoardPieceAt(row, i, a);
@@ -133,7 +133,7 @@ public class GameEngine implements Serializable {
 					count++;
 				}
 			}
-		} else if (s.toLowerCase().equals("w")) {
+		} else if (x == 0) {
 			for (int i = row; i >= 0; i--) {
 				if ((grid.getBoardPieceAt(i, col).getPieceType().equals("N")) && (count < 1)) {
 					grid.setBoardPieceAt(i, col, a);
@@ -141,7 +141,7 @@ public class GameEngine implements Serializable {
 					count++;
 				}
 			}
-		} else if (s.toLowerCase().equals("d")) {
+		} else if (x == 3) {
 			for (int i = col; i < 9; i++) {
 				if ((grid.getBoardPieceAt(row, i).getPieceType().equals("N")) && (count < 1)) {
 					grid.setBoardPieceAt(row, i, a);
@@ -149,7 +149,7 @@ public class GameEngine implements Serializable {
 					count++;
 				}
 			}
-		} else if (s.toLowerCase().equals("s")) {
+		} else if (x == 2) {
 			for (int i = row; i < 9; i++) {
 				if ((grid.getBoardPieceAt(i, col).getPieceType().equals("N")) && (count < 1)) {
 					grid.setBoardPieceAt(i, col, a);
@@ -188,13 +188,21 @@ public class GameEngine implements Serializable {
 		BoardPiece a;
 		BoardPiece b;
 		ninjaSpotted = false;
+		roomBlock = false;
 
 		if (x == 0) {
 			a = grid.getBoardPieceAt(i - 2, j);
 			a.setIsVisible(true);
-			if (grid.getBoardPieceAt(i - 1, j).getPieceType().equals("N")
+			
+			if (grid.getBoardPieceAt(i - 1, j).toString().equals("Room")
+					||grid.getBoardPieceAt(i - 2, j).toString().equals("Room")){
+				roomBlock = true;
+			}
+			
+			else if (grid.getBoardPieceAt(i - 1, j).getPieceType().equals("N")
 					|| grid.getBoardPieceAt(i - 2, j).getPieceType().equals("N")) {
 				ninjaSpotted = true;
+				a.setIsVisible(true);
 			}
 
 			if (i > 2) {
@@ -207,10 +215,16 @@ public class GameEngine implements Serializable {
 
 		} else if (x == 1) {
 			a = grid.getBoardPieceAt(i, j - 2);
-			a.setIsVisible(true);
-			if (grid.getBoardPieceAt(i, j - 1).getPieceType().equals("N")
+		
+			if (grid.getBoardPieceAt(i, j - 1).toString().equals("Room")
+					||grid.getBoardPieceAt(i, j - 2).toString().equals("Room")){
+				roomBlock = true;
+			}
+			
+			else if (grid.getBoardPieceAt(i, j - 1).getPieceType().equals("N")
 					|| grid.getBoardPieceAt(i, j - 2).getPieceType().equals("N")) {
 				ninjaSpotted = true;
+				a.setIsVisible(true);
 			}
 
 			if (j > 2) {
@@ -223,10 +237,16 @@ public class GameEngine implements Serializable {
 
 		} else if (x == 2) {
 			a = grid.getBoardPieceAt(i + 2, j);
-			a.setIsVisible(true);
-			if (grid.getBoardPieceAt(i + 1, j).getPieceType().equals("N")
+		
+			
+			if (grid.getBoardPieceAt(i + 1, j).toString().equals("Room")
+					||grid.getBoardPieceAt(i + 2, j).toString().equals("Room")){
+				roomBlock = true;
+			}
+			else if (grid.getBoardPieceAt(i + 1, j).getPieceType().equals("N")
 					|| grid.getBoardPieceAt(i + 2, j).getPieceType().equals("N")) {
 				ninjaSpotted = true;
+				a.setIsVisible(true);
 			}
 
 			if (i < 6) {
@@ -239,16 +259,21 @@ public class GameEngine implements Serializable {
 
 		} else if (x == 3) {
 			a = grid.getBoardPieceAt(i, j + 2);
-			a.setIsVisible(true);
-			if (grid.getBoardPieceAt(i, j + 1).getPieceType().equals("N")
+		
+			if (grid.getBoardPieceAt(i, j + 1).toString().equals("Room")
+					||grid.getBoardPieceAt(i, j + 2).toString().equals("Room")){
+				roomBlock = true;
+			}
+			else if (grid.getBoardPieceAt(i, j + 1).getPieceType().equals("N")
 					|| grid.getBoardPieceAt(i, j + 2).getPieceType().equals("N")) {
 				ninjaSpotted = true;
+				a.setIsVisible(true);
 			}
 
 			if (j < 6) {
 				b = grid.getBoardPieceAt(i, j + 3);
 				b.setIsVisible(true);
-				;
+
 				if (grid.getBoardPieceAt(i, j + 3).getPieceType().equals("N")) {
 					ninjaSpotted = true;
 				}
@@ -359,14 +384,12 @@ public class GameEngine implements Serializable {
 		}
 		boolean notAvailable = false;
 
-		
-		
 		for (int i = 0; i < ninjaPos.length - 1; i += 2) {
 			int count = 0;
-			
+
 			do {
 				int moveDir = grid.randNinjaMove();
-			
+
 				// up
 				if (moveDir == 0) {
 					if (ninjaPos[i] - 1 > 0) {
@@ -440,9 +463,9 @@ public class GameEngine implements Serializable {
 					}
 				}
 
-				
 				if (count == 4) {
-//					swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1]);
+					// swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i],
+					// ninjaPos[i + 1]);
 					notAvailable = false;
 				}
 			} while (notAvailable);
@@ -459,35 +482,43 @@ public class GameEngine implements Serializable {
 
 	public void reset() {
 		grid.instantiateGrid();
+		numberOfMovesCounter = 0;
+		gotPowerUp = false;
+		powerUpName = "";
+		cannotEnter = 0;
+		hasExtraBullet = false;
+		isInvincible = false;
+		ninjaGotShot = false;
+		ninjaSpotted = false;	
 		numberOfMoves = 0;
 		isAlive = true;
 	}
 
 	public void debug(boolean a) {
-		BoardPiece n = new BoardPiece("N");
-		BoardPiece b = new BoardPiece("B");
-		BoardPiece r = new PowerUps("R");
-		BoardPiece m = new PowerUps("I");
-		grid.setBoardPieceAt(7, 0, r);
-		grid.setBoardPieceAt(5, 0, b);
-		grid.setBoardPieceAt(1, 0, n);
-		grid.setBoardPieceAt(6, 0, m);
-
-		grid.debug(a);
+		if (a){
+			numberOfMovesCounter = numberOfMoves - 4;
+			isInvincible = true;			
+		}
+			grid.debug(a);			
 	}
 
 	public boolean gameWon() {
 		int[] spyPos = grid.findSpy();
 		int[] briefcasePos = grid.findBriefCase();
+		int[] roomPosRows = { 1, 1, 1, 4, 4, 4, 7, 7, 7 };
+		int[] roomPosCols = { 1, 4, 7, 1, 4, 7, 1, 4, 7 };
 
-		if (spyPos[0] == (briefcasePos[0] + 1) && spyPos[1] == briefcasePos[1])
-			return true;
+		for (int i = 0; i < roomPosRows.length; i++) {
+			if (spyPos[0] == roomPosRows[i] && spyPos[1] == roomPosCols[i]) {
+				if (spyPos[0] == (briefcasePos[0] + 1) && spyPos[1] == briefcasePos[1])
+					return true;
 
-		else
-			return false;
+			}
+		}
+		return false;
 	}
-	
-	public boolean gameLost(){
+
+	public boolean gameLost() {
 		if (getNumberOfLives() == 0)
 			return true;
 		else
@@ -496,36 +527,39 @@ public class GameEngine implements Serializable {
 
 	public boolean wrongRoom() {
 		int[] findSpy = grid.findSpy();
+		int[] findBriefcase = grid.findBriefCase();
 		int[] roomRows = { 1, 1, 1, 4, 4, 4, 7, 7, 7 };
 		int[] roomCols = { 1, 4, 7, 1, 4, 7, 1, 4, 7 };
 
 		// if wrong room is true, it swaps the spy back to its position
 		boolean isWrongRoom = false;
 		for (int i = 0; i < 9; i++) {
-			if(findSpy[0] == roomRows[i] && findSpy[1] == roomCols[i]){
+			if (findSpy[0] == roomRows[i] && findSpy[1] == roomCols[i]) {
+				if (findSpy[0] == findBriefcase[0] + 1 && findSpy[1] == findBriefcase[1]) {
+					isWrongRoom = false;
+					
+				} else {
 					isWrongRoom = true;
 					swap(findSpy[0], findSpy[1], findSpy[0] - 1, findSpy[1]);
+					
 				}
 			}
+		}
 		return isWrongRoom;
 	}
-	
-	public void hidePieces(){
+
+	public void hidePieces() {
 		BoardPiece temp;
-		for (int i = 0; i < 9; i++){
-			for (int j = 0; j < 9; j++){
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
 				temp = grid.getBoardPieceAt(i, j);
-				if(temp.getPieceType().equals("U")){
-					
-				}
-				else if (temp.getPieceType().equals("X")){
-					
-				}
-				else if (temp.getPieceType().equals("S")){
-					
-				}
-				else {
-					temp.setIsVisible(true);
+				if (temp.toString().equals("Room")) {
+
+				} 
+				else if (temp.getPieceType().equals("S")) {
+
+				} else {
+					temp.setIsVisible(false);
 					grid.setBoardPieceAt(i, j, temp);
 				}
 			}
@@ -598,12 +632,16 @@ public class GameEngine implements Serializable {
 	public int getCannotEnter() {
 		return cannotEnter;
 	}
-	
-	public int getNumberOfLives(){
+
+	public int getNumberOfLives() {
 		int[] spyPos = grid.findSpy();
 		int c = spyPos[0];
 		int d = spyPos[1];
 		return ((Spy) (grid.getBoardPieceAt(c, d))).getNumberOfLives();
+	}
+	
+	public boolean getRoomBlock(){
+		return roomBlock;
 	}
 
 }

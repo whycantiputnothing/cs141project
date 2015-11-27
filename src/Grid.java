@@ -217,12 +217,14 @@ public class Grid implements Serializable{
 		for (BoardPiece[] b : grid) {
 			for (BoardPiece p : b) {
 				p.setIsVisible(a);
-				if(p.getPieceType().equals("X"))
+				if(p.getPieceType().equals("X")){
 					p.setIsVisible(true);
+					((Room)(p)).setIsBriefcaseVisible(a);
+				}
 				if (p.getPieceType().equals("U")){
 					p.setIsVisible(true);
 					if(((Room)(p)).getHasBriefcase()){
-						((Room)(p)).setIsBriefcaseVisible(true);
+						((Room)(p)).setIsBriefcaseVisible(a);
 					}
 				}
 				if (p.getPieceType().equals("S"))

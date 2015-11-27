@@ -26,4 +26,8 @@ public class Room extends BoardPiece{
 		else
 			return super.getPieceType();
 	}
+	
+	public String toString(){
+		return "Room";
+	}
 }
