@@ -20,6 +20,10 @@ public class Room extends BoardPiece{
 		isBriefcaseVisible = vis;
 	}
 	
+	public boolean getIsBriefcaseVisible(){
+		return isBriefcaseVisible;
+	}
+	
 	public String getPieceType(){
 		if(hasBriefcase && isBriefcaseVisible)
 			return "X";

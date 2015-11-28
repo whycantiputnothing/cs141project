@@ -25,4 +25,8 @@ public class BoardPiece implements Serializable{
 		isVisible = b;
 	}
 	
+	public void setIsVisible(){
+		isVisible = !isVisible;
+	}
+	
 }

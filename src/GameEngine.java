@@ -25,6 +25,8 @@ public class GameEngine implements Serializable {
 	private boolean ninjaSpotted;
 	
 	private boolean roomBlock;
+	
+	private boolean isDebug;
 
 	private Grid grid = new Grid();
 
@@ -192,7 +194,6 @@ public class GameEngine implements Serializable {
 
 		if (x == 0) {
 			a = grid.getBoardPieceAt(i - 2, j);
-			a.setIsVisible(true);
 			
 			if (grid.getBoardPieceAt(i - 1, j).toString().equals("Room")
 					||grid.getBoardPieceAt(i - 2, j).toString().equals("Room")){
@@ -204,8 +205,11 @@ public class GameEngine implements Serializable {
 				ninjaSpotted = true;
 				a.setIsVisible(true);
 			}
+			
+			else
+				a.setIsVisible(true);
 
-			if (i > 2) {
+			if (i > 2 && !roomBlock) {
 				b = grid.getBoardPieceAt(i - 3, j);
 				b.setIsVisible(true);
 				if (grid.getBoardPieceAt(i - 3, j).getPieceType().equals("N")) {
@@ -226,8 +230,11 @@ public class GameEngine implements Serializable {
 				ninjaSpotted = true;
 				a.setIsVisible(true);
 			}
+			
+			else
+				a.setIsVisible(true);
 
-			if (j > 2) {
+			if (j > 2 && !roomBlock) {
 				b = grid.getBoardPieceAt(i, j - 3);
 				b.setIsVisible(true);
 				if (grid.getBoardPieceAt(i, j - 3).getPieceType().equals("N")) {
@@ -238,18 +245,21 @@ public class GameEngine implements Serializable {
 		} else if (x == 2) {
 			a = grid.getBoardPieceAt(i + 2, j);
 		
-			
 			if (grid.getBoardPieceAt(i + 1, j).toString().equals("Room")
 					||grid.getBoardPieceAt(i + 2, j).toString().equals("Room")){
 				roomBlock = true;
 			}
+			
 			else if (grid.getBoardPieceAt(i + 1, j).getPieceType().equals("N")
 					|| grid.getBoardPieceAt(i + 2, j).getPieceType().equals("N")) {
 				ninjaSpotted = true;
 				a.setIsVisible(true);
 			}
+			
+			else
+				a.setIsVisible(true);
 
-			if (i < 6) {
+			if (i < 6 && !roomBlock) {
 				b = grid.getBoardPieceAt(i + 3, j);
 				b.setIsVisible(true);
 				if (grid.getBoardPieceAt(i + 3, j).getPieceType().equals("N")) {
@@ -264,13 +274,17 @@ public class GameEngine implements Serializable {
 					||grid.getBoardPieceAt(i, j + 2).toString().equals("Room")){
 				roomBlock = true;
 			}
+			
 			else if (grid.getBoardPieceAt(i, j + 1).getPieceType().equals("N")
 					|| grid.getBoardPieceAt(i, j + 2).getPieceType().equals("N")) {
 				ninjaSpotted = true;
 				a.setIsVisible(true);
 			}
+			
+			else
+				a.setIsVisible(true);
 
-			if (j < 6) {
+			if (j < 6 && !roomBlock) {
 				b = grid.getBoardPieceAt(i, j + 3);
 				b.setIsVisible(true);
 
@@ -494,13 +508,35 @@ public class GameEngine implements Serializable {
 		isAlive = true;
 	}
 
-	public void debug(boolean a) {
-		if (a){
-			numberOfMovesCounter = numberOfMoves - 4;
-			isInvincible = true;			
+	public void debug() {
+		for (int i = 0; i < 9; i++){
+			for (int j = 0; j < 9; j++){
+				BoardPiece a = grid.getBoardPieceAt(i, j);
+				a.setIsVisible();
+				if (a.getPieceType().equals("S")){
+					a.setIsVisible(true);
+				}
+				if (a.toString().equals("Room")){
+					a.setIsVisible(true);
+					if (((Room)(a)).getHasBriefcase()){
+						if(isDebug)
+							((Room)(a)).setIsBriefcaseVisible(false);
+						else
+							((Room)(a)).setIsBriefcaseVisible(true);
+							
+					}
+				}
+			}
 		}
-			grid.debug(a);			
 	}
+	
+	public void debugHelper(){
+		if (isDebug){
+			numberOfMovesCounter = numberOfMoves - 5;
+			isInvincible = true;	
+		}			
+	}
+	
 
 	public boolean gameWon() {
 		int[] spyPos = grid.findSpy();
@@ -549,20 +585,22 @@ public class GameEngine implements Serializable {
 	}
 
 	public void hidePieces() {
-		BoardPiece temp;
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				temp = grid.getBoardPieceAt(i, j);
-				if (temp.toString().equals("Room")) {
-
-				} 
-				else if (temp.getPieceType().equals("S")) {
-
-				} else {
-					temp.setIsVisible(false);
-					grid.setBoardPieceAt(i, j, temp);
+		if (!isDebug){
+			BoardPiece temp;
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+					temp = grid.getBoardPieceAt(i, j);
+					if (temp.toString().equals("Room")) {
+						
+					} 
+					else if (temp.getPieceType().equals("S")) {
+						
+					} else {
+						temp.setIsVisible(false);
+						grid.setBoardPieceAt(i, j, temp);
+					}
 				}
-			}
+			}			
 		}
 	}
 
@@ -642,6 +680,14 @@ public class GameEngine implements Serializable {
 	
 	public boolean getRoomBlock(){
 		return roomBlock;
+	}
+	
+	public void setIsDebug(){
+		isDebug = !isDebug;
+	}
+	
+	public boolean getIsDebug(){
+		return isDebug;
 	}
 
 }

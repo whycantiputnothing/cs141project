@@ -67,17 +67,19 @@ public class Grid implements Serializable{
 			}
 		}
 	
-		for (int i = 0; i < rows.size(); i++) {
-			for (int j = 0; j < cols.size(); j++) {
-				int a = rows.get(i);
-				int b = cols.get(i);
-				int c = roomPositionRows.get(j);
-				int d = roomPositionCols.get(j);
-				if (a == c && b == d) {
-					rows.remove(i);
-					cols.remove(i);
-					roomPositionRows.remove(j);
-					roomPositionCols.remove(j);
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				if(j < rows.size() && i < rows.size()){					
+					int a = rows.get(i);
+					int b = cols.get(i);
+					int c = roomPositionRows.get(j);
+					int d = roomPositionCols.get(j);
+					if (a == c && b == d) {
+						rows.remove(i);
+						cols.remove(i);
+						roomPositionRows.remove(j);
+						roomPositionCols.remove(j);
+					}
 				}
 			}
 		}
@@ -211,26 +213,6 @@ public class Grid implements Serializable{
 	public void setBoardPieceAt(int x, int y, BoardPiece a) {
 		grid[x][y] = a;
 
-	}
-
-	public void debug(boolean a) {
-		for (BoardPiece[] b : grid) {
-			for (BoardPiece p : b) {
-				p.setIsVisible(a);
-				if(p.getPieceType().equals("X")){
-					p.setIsVisible(true);
-					((Room)(p)).setIsBriefcaseVisible(a);
-				}
-				if (p.getPieceType().equals("U")){
-					p.setIsVisible(true);
-					if(((Room)(p)).getHasBriefcase()){
-						((Room)(p)).setIsBriefcaseVisible(a);
-					}
-				}
-				if (p.getPieceType().equals("S"))
-					p.setIsVisible(true);
-			}
-		}
 	}
 
 	public String toString() {
