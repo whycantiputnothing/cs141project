@@ -168,7 +168,7 @@ public class UI {
 				turn = false;
 			} 
 				else{
-					if(GE.getCannotEnter() == 0){
+					if(GE.getCannotEnter() == 1){
 						System.out.println("You can only enter a room from the top");
 					}
 					else{

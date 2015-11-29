@@ -326,22 +326,22 @@ public class GameEngine implements Serializable {
 		// up
 		if (direction == 0) {
 			if (a == 0) {
-				cannotEnter = 1;
+				cannotEnter = 0;
 				return false;
 			} else if (grid.getBoardPieceAt(spyPos[0] - 1, spyPos[1]).getPieceType().equals("U")
 					|| grid.getBoardPieceAt(spyPos[0] - 1, spyPos[1]).getPieceType().equals("X")) {
-				cannotEnter = 0;
+				cannotEnter = 1;
 				return false;
 			} else
 				return true;
 			// left
 		} else if (direction == 1) {
 			if (b == 0) {
-				cannotEnter = 1;
+				cannotEnter = 0;
 				return false;
 			} else if (grid.getBoardPieceAt(spyPos[0], spyPos[1] - 1).getPieceType().equals("U")
 					|| grid.getBoardPieceAt(spyPos[0], spyPos[1] - 1).getPieceType().equals("X")) {
-				cannotEnter = 0;
+				cannotEnter = 1;
 				return false;
 			} else
 				return true;
@@ -354,11 +354,11 @@ public class GameEngine implements Serializable {
 			// right
 		} else if (direction == 3) {
 			if (b == 8) {
-				cannotEnter = 1;
+				cannotEnter = 0;
 				return false;
 			} else if (grid.getBoardPieceAt(spyPos[0], spyPos[1] + 1).getPieceType().equals("U")
 					|| grid.getBoardPieceAt(spyPos[0], spyPos[1] + 1).getPieceType().equals("X")) {
-				cannotEnter = 0;
+				cannotEnter = 1;
 				return false;
 			} else
 				return true;
