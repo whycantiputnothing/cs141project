@@ -329,7 +329,7 @@ public class UI {
 	
 	private String load(){
 		System.out.println("Which save would you like to load?");
-		File directory = new File("C:\\Users\\Brandon-PC\\cs141project");
+		File directory = new File("C:\\Users\\calvin\\workspace\\cs141project");
 		
 		// get all the files from a directory
 		File[] fList = directory.listFiles();
