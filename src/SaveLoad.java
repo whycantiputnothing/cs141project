@@ -1,8 +1,5 @@
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.util.*;
 
 /**
  * 
@@ -10,10 +7,10 @@ import java.io.ObjectOutputStream;
 
 public class SaveLoad {
 	
-	public static void Save(GameEngine ge){
+	public static void Save(GameEngine ge, String s){
 		 try { 
 	
-			  FileOutputStream fos = new FileOutputStream("GameEngine.dat");
+			  FileOutputStream fos = new FileOutputStream(s);
 		      ObjectOutputStream oos = new ObjectOutputStream(fos);
 
 		      oos.writeObject(ge);
@@ -24,11 +21,11 @@ public class SaveLoad {
 				
 	}		
 
-	public static GameEngine Load(){
+	public static GameEngine Load(String s){
 		GameEngine save = null;
 		try{
 		 
-			FileInputStream fis = new FileInputStream("GameEngine.dat");
+			FileInputStream fis = new FileInputStream(s);
 		 	ObjectInputStream ois = new ObjectInputStream(fis);
 		 	
 		 	save = (GameEngine) ois.readObject();
@@ -41,3 +38,5 @@ public class SaveLoad {
 		 return save;
 	}
 }
+
+	

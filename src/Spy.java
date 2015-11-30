@@ -29,18 +29,4 @@ public class Spy extends BoardPiece {
 	public void setNumberOfLives(int i){
 		numberOfLives = i;
 	}
-
-	public void spyShoot(){
-		
-	}
-	
-	public void spyLook(){
-		
-	}
-	
-	public void getPowerup(){
-		
-	}
-
-	
 }

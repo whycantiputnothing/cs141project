@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.*;
 
 // test
@@ -33,7 +34,7 @@ public class UI {
 				gameLoop();
 				break;
 			case 2:
-				GE = SaveLoad.Load();
+				GE = SaveLoad.Load(load());
 				gameLoop();
 				break;
 			case 3:
@@ -61,7 +62,7 @@ public class UI {
 				in.nextLine();
 				
 				if (option == 2) {
-					SaveLoad.Save(GE);
+					SaveLoad.Save(GE , save());
 				} else if (option == 3) {
 					System.exit(0);
 				} else if (option == 0) {
@@ -275,6 +276,32 @@ public class UI {
 				System.exit(0);
 			
 		}
+	}
+	
+	private String save(){
+		System.out.println("What would you like to name your savefile?");
+		String s = in.nextLine();
+		return s;
+	}
+	
+	private String load(){
+		System.out.println("Which save would you like to load?");
+		File directory = new File("C:\\Users\\Brandon-PC\\cs141project");
+		
+		// get all the files from a directory
+		File[] fList = directory.listFiles();
+		List<File> files = new ArrayList<File>();
+		for (File file : fList) {
+			if (file.getName().toLowerCase().endsWith(".dat")) {
+				files.add(file);
+			}
+		}
+		
+		for (File file : files) {
+			System.out.println(file.getName());
+		}
+		String s = in.nextLine();
+		return s;
 	}
 
 }
