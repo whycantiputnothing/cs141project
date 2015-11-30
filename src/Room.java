@@ -1,6 +1,11 @@
 
 public class Room extends BoardPiece{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private boolean isBriefcaseVisible = false;
 	
 	private boolean hasBriefcase = false;

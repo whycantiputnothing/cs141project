@@ -31,6 +31,7 @@ public class UI {
 
 			switch (option) {
 			case 1:
+				System.out.println("New game started.\n");
 				gameLoop();
 				break;
 			case 2:
@@ -47,7 +48,6 @@ public class UI {
 	}
 
 	private void gameLoop() {
-		System.out.println("New game started.\n");
 
 		while (!GE.gameWon()&&!GE.gameLost()) {
 			GE.hidePieces();
@@ -281,7 +281,12 @@ public class UI {
 	private String save(){
 		System.out.println("What would you like to name your savefile?");
 		String s = in.nextLine();
-		return s;
+		if (s.endsWith(".dat"))
+			return s;
+		else {
+			s += ".dat";
+			return s;
+		}
 	}
 	
 	private String load(){
@@ -301,7 +306,12 @@ public class UI {
 			System.out.println(file.getName());
 		}
 		String s = in.nextLine();
-		return s;
+		if (s.endsWith(".dat"))
+			return s;
+		else {
+			s += ".dat";
+			return s;
+		}
 	}
 
 }

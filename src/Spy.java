@@ -1,5 +1,10 @@
 public class Spy extends BoardPiece {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int ammoCount = 1;
 	
 	private int numberOfLives = 3;

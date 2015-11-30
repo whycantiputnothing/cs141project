@@ -1,8 +1,14 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameEngine implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private int numberOfMoves;
 
@@ -390,6 +396,12 @@ public class GameEngine implements Serializable {
 			}
 		}
 	}
+	
+	public int randNinjaMove(){
+		Random rand = new Random();
+		int moveDir = rand.nextInt(3);
+		return moveDir;
+	}
 
 	public void moveNinja() {
 		int[] ninjaPos = new int[grid.findNinja().size()];
@@ -402,7 +414,7 @@ public class GameEngine implements Serializable {
 			int count = 0;
 
 			do {
-				int moveDir = grid.randNinjaMove();
+				int moveDir = randNinjaMove();
 
 				// up
 				if (moveDir == 0) {

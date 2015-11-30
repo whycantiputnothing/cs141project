@@ -1,6 +1,11 @@
 import java.io.Serializable;
 
 public class BoardPiece implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private boolean isVisible;
 	
 	private String pieceType;

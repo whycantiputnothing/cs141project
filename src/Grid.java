@@ -3,6 +3,11 @@ import java.util.*;
 
 public class Grid implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private BoardPiece[][] grid = new BoardPiece[9][9];
 
 	public void instantiateGrid() {
@@ -31,12 +36,11 @@ public class Grid implements Serializable{
 		grid[8][4] = new Room(false);
 		grid[8][5] = new Room(false);
 		grid[8][6] = new Room(false);
+		
 		shufflePieces();
-		// swapSpace(findSpy()[0], findSpy()[1], 8, 0);
 		placeSpyAtStart();
 		placeRooms();
 		checkNinjaPosition();
-
 	}
 
 	public void placeRooms() {
@@ -44,13 +48,15 @@ public class Grid implements Serializable{
 		List<Integer> rows = new ArrayList<Integer>();
 		List<Integer> cols = new ArrayList<Integer>();
 		List<Integer> roomPositionRows = new ArrayList<Integer>();
+		List<Integer> roomPositionCols = new ArrayList<Integer>();
+		
 		int[] roomPostitionRows1 = { 1, 1, 1, 4, 4, 4, 7, 7, 7 };
 		while (count < 9) {
 			roomPositionRows.add(roomPostitionRows1[count]);
 			count++;
 		}
+		
 		count = 0;
-		List<Integer> roomPositionCols = new ArrayList<Integer>();
 		int[] roomPostitionCols1 = { 1, 4, 7, 1, 4, 7, 1, 4, 7 };
 		while (count < 9) {
 			roomPositionCols.add(roomPostitionCols1[count]);
@@ -110,12 +116,6 @@ public class Grid implements Serializable{
 				}
 			}
 		}
-	}
-	
-	public int randNinjaMove(){
-		Random rand = new Random();
-		int moveDir = rand.nextInt(3);
-		return moveDir;
 	}
 
 	public void placeSpyAtStart() {
@@ -185,8 +185,6 @@ public class Grid implements Serializable{
 				}
 			}
 		}
-		
-			
 		return ninjaPos;	
 	}
 	
@@ -225,9 +223,7 @@ public class Grid implements Serializable{
 					printPosition += "[ ]";
 			}
 			printPosition += "\n";
-
 		}
 		return printPosition;
-
 	}
 }
