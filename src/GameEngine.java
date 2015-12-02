@@ -572,12 +572,160 @@ public class GameEngine implements Serializable {
 	 * located at the bottom left corner. This occurs only when the spy loses a
 	 * life. Boolean isAlive is set back to true.
 	 */
+	public void moveNinjaHardMode() {
+		int[] ninjaPos = new int[grid.findNinja().size()];
+		int a = grid.findSpy()[0];
+		int b = grid.findSpy()[1];
+		int moveDir = 0;
+		
+		for (int i = 0; i < grid.findNinja().size(); i++) {
+			ninjaPos[i] = grid.findNinja().get(i);
+		}
+		
+		boolean notAvailable = false;
+
+		for (int i = 0; i < ninjaPos.length - 1; i += 2) {
+			int count = 0;
+			boolean follow = true;
+
+			do {
+				if (ninjaPos[i] == a){
+					if (ninjaPos[i + 1] < b) {
+						for (int j = ninjaPos[i + 1]; j < b; j++){
+							if (grid.getBoardPieceAt(a, j).toString().equals("Room")) {
+								follow = false;
+							}
+						}
+						if (follow)
+							moveDir = 3;
+					}
+					
+					else if (ninjaPos[i + 1] > b) {
+						for (int j = b; j < ninjaPos[i + 1]; j++){
+							if (grid.getBoardPieceAt(a, j).toString().equals("Room")) {
+								follow = false;
+							}
+						}
+						if (follow)
+							moveDir = 2;
+					}
+				}
+				
+				else if (ninjaPos[i + 1] == b){
+					if (ninjaPos[i] < a) {
+						for (int j = ninjaPos[i]; j < a; j++){
+							if (grid.getBoardPieceAt(b, j).toString().equals("Room")) {
+								follow = false;
+							}
+						}
+						if (follow)
+							moveDir = 1;
+					}
+					
+					else if (ninjaPos[i] > a) {
+						for (int j = a; j < ninjaPos[i]; j++){
+							if (grid.getBoardPieceAt(b, j).toString().equals("Room")) {
+								follow = false;
+							}
+						}
+						if (follow)
+							moveDir = 0;
+					}
+				}
+				
+				else {
+					moveDir = randNinjaMove();					
+				}
+
+				// up
+				if (moveDir == 0) {
+					if (ninjaPos[i] - 1 > 0) {
+						if (grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("U")
+								|| grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("X")
+								|| grid.getBoardPieceAt(ninjaPos[i] - 1, ninjaPos[i + 1]).getPieceType().equals("S")) {
+							notAvailable = true;
+							count++;
+						} else {
+							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] - 1, ninjaPos[i + 1]);
+							notAvailable = false;
+						}
+					} else {
+						notAvailable = true;
+						count++;
+					}
+				}
+
+				// down
+				else if (moveDir == 1) {
+					if (ninjaPos[i] + 1 < 8) {
+						if (grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("U")
+								|| grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("X")
+								|| grid.getBoardPieceAt(ninjaPos[i] + 1, ninjaPos[i + 1]).getPieceType().equals("S")) {
+							notAvailable = true;
+							count++;
+						} else {
+							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i] + 1, ninjaPos[i + 1]);
+							notAvailable = false;
+						}
+					} else {
+						notAvailable = true;
+						count++;
+					}
+				}
+
+				// left
+				else if (moveDir == 2) {
+					if (ninjaPos[i + 1] - 1 > 0) {
+						if (grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("U")
+								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("X")
+								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] - 1).getPieceType().equals("S")) {
+							notAvailable = true;
+							count++;
+						} else {
+							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1] - 1);
+							notAvailable = false;
+						}
+					} else {
+						notAvailable = true;
+						count++;
+					}
+				}
+
+				// right
+				else if (moveDir == 3) {
+					if (ninjaPos[i + 1] + 1 < 8) {
+						if (grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] + 1).getPieceType().equals("U")
+								|| grid.getBoardPieceAt(ninjaPos[i], ninjaPos[i + 1] + 1).getPieceType().equals("X")
+								|| grid.getBoardPieceAt(ninjaPos[i + 1], ninjaPos[i + 1] + 1).getPieceType()
+										.equals("S")) {
+							notAvailable = true;
+							count++;
+						} else {
+							swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i], ninjaPos[i + 1] + 1);
+							notAvailable = false;
+						}
+					} else {
+						notAvailable = true;
+						count++;
+					}
+				}
+
+				if (count == 4) {
+					// swap(ninjaPos[i], ninjaPos[i + 1], ninjaPos[i],
+					// ninjaPos[i + 1]);
+					notAvailable = false;
+				}
+			} while (notAvailable);
+		}
+	}
+
 	public void respawn() {
 		int[] spyPos = grid.findSpy();
 		BoardPiece a = grid.getBoardPieceAt(spyPos[0], spyPos[1]);
 		((Spy) (a)).death();
 		swap(8, 0, spyPos[0], spyPos[1]);
 		isAlive = true;
+		grid.checkNinjaPosition();
 	}
 
 	/**

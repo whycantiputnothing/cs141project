@@ -2,18 +2,33 @@ import java.io.File;
 import java.util.*;
 
 // test
+/**
+ * @author Brandon Nguyen
+ *
+ */
+/**
+ * @author Brandon Nguyen
+ *
+ */
 public class UI {
 
 	private GameEngine GE = null;
 	private Scanner in = null;
 	private int option;
 	private boolean turn;
-
+	
+	/**
+	 * Initializes a GameEngine object along with the scanner
+	 * @param game
+	 */
 	public UI(GameEngine game) {
 		GE = game;
 		in = new Scanner(System.in);
 	}
 
+	/**
+	 * @return integer for main menu choice
+	 */
 	private int mainMenu() {
 		int option;
 		System.out.println("Please choose an option:\n" + "\t1. New Game\n" + "\t2. Load Game\n" + "\t3. Quit");
@@ -22,6 +37,10 @@ public class UI {
 		return option;
 	}
 
+	/**
+	 * public method used to start the game. Prompts user if they want to
+	 * start a new game, load a save file, or quit
+	 */
 	public void startGame() {
 		welcomeMessage();
 		GE.reset();
@@ -47,6 +66,10 @@ public class UI {
 		}
 	}
 
+	/**
+	 * main gameloop. Takes in the winning or losing condition for the while loop. Each iteration 
+	 * counts as a turn.  
+	 */
 	private void gameLoop() {
 
 		while (!GE.gameWon()&&!GE.gameLost()) {
@@ -91,13 +114,20 @@ public class UI {
 				}
 			}
 			GE.debugHelper();
-			GE.moveNinja();
+			GE.moveNinjaHardMode();
+//			GE.moveNinja();
 			GE.ninjaStab();
 			dead();
 		}
 		gameOver();
 	}
 	
+	/**
+	 * prompts the user which way they would like to look if they choose to.
+	 * Asks for which direction the user would like to look and displays ninja ahead,
+	 * the coast is clear, there is nothing to see there, or a room is blocking your view
+	 * there is a built in loop so if the player chooses the wrong input the turn will not end
+	 */
 	private void choice1() {
 		turn = true;
 		while (turn) {
@@ -105,14 +135,14 @@ public class UI {
 			option = in.nextInt();
 			in.nextLine();
 			
-			if (option < 0 || option > 3) {
-				System.out.println("Please input an integer between 0 and 3");
-			} 
-			
-			else if (option == 4){
+			if (option == 4) {
 				GE.debug();
 				GE.setIsDebug();
 				System.out.println(GE.gridToString());
+			} 
+			
+			else if (option < 0 || option > 3){
+				System.out.println("Please input an integer between 0 and 3");
 			}
 			
 			else if(GE.canSpyLook(option)){
@@ -138,6 +168,11 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * "2nd" set of choices. Prompts the user if they would like to move, shoot, or check ammo
+	 * moving and shooting ends the player's turn while checking ammo does not.
+	 * built in loop so if the user chooses a wrong input the turn doesn't end
+	 */
 	private void choice2(){
 		turn = true;
 		while (turn) {
@@ -173,6 +208,10 @@ public class UI {
 		System.out.println("Welcome to the Spy Game!\n");
 	}
 	
+	/**
+	 * prints out the prompts if move is selected. includes room checker for only
+	 * being able to enter a room from the top 
+	 */
 	private void move(){
 		System.out.println(
 				"What direction would you like to move?:\n" + "(0)Up (1)Left (2)Down (3)Right");
@@ -204,6 +243,9 @@ public class UI {
 			}
 	}
 
+	/**
+	 * prints dead message along with respawning the spy to the start of the game
+	 */
 	private void dead() {
 		if (GE.getIsAlive() == false) {
 			System.out.println("A ninja has stabbed you");
@@ -212,6 +254,10 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * prints if a powerup was picked up during the last turn. Also prints out
+	 * how many moves of invicibility remain 
+	 */
 	private void powerUp(){
 		if(GE.getGotPowerUp()){
 			String s = GE.getPowerUpName();
@@ -251,6 +297,9 @@ public class UI {
 		GE.resetPowerUpName();
 	}
 	
+	/**
+	 * prompts the user which direction they would like to shoot. displays a message if the user hit a ninja
+	 */
 	private void shoot(){
 		if(GE.getNumberOfBullets() == 1){
 			System.out.println("What direction would you like to shoot?:\n"
@@ -283,6 +332,10 @@ public class UI {
 			System.out.println("Your bullet hit nothing");
 	}
 	
+	/**
+	 * prints game over if the game was lost, or congradulations if the game was won. Prompts the user
+	 * if they would like to go to main menu or quit
+	 */
 	private void gameOver(){
 		if(GE.gameLost()){
 			System.out.println("Game Over");
@@ -314,6 +367,9 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * @return a String with the name of the save file 
+	 */
 	private String save(){
 		System.out.println("What would you like to name your savefile?");
 		String s = in.nextLine();
@@ -327,8 +383,12 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * @return a string with the name of the save file to be loaded
+ 	 */
 	private String load(){
 		System.out.println("Which save would you like to load?");
+//		File directory = new File("C:\\Users\\Brandon-PC\\cs141project");
 		File directory = new File("C:\\Users\\calvin\\workspace\\cs141project");
 		
 		// get all the files from a directory

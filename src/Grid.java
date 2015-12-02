@@ -220,7 +220,7 @@ public class Grid implements Serializable{
 				if (p.getIsVisible()) {
 					printPosition += "[" + p.getPieceType() + "]";
 				} else
-					printPosition += "[ ]";
+					printPosition += "[-]";
 			}
 			printPosition += "\n";
 		}
