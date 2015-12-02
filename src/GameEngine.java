@@ -380,7 +380,7 @@ public class GameEngine implements Serializable {
 				return false;
 			}
 
-			else if (grid.getBoardPieceAt(spyPos[0], spyPos[1] - 1).getPieceType().toString().equals("Room")) {
+			else if (grid.getBoardPieceAt(spyPos[0], spyPos[1] - 1).toString().equals("Room")) {
 				cannotEnter = 1;
 				return false;
 			}
@@ -463,7 +463,7 @@ public class GameEngine implements Serializable {
 	 */
 	public int randNinjaMove() {
 		Random rand = new Random();
-		int moveDir = rand.nextInt(3);
+		int moveDir = rand.nextInt(4);
 		return moveDir;
 	}
 
@@ -571,7 +571,6 @@ public class GameEngine implements Serializable {
 		int[] ninjaPos = new int[grid.findNinja().size()];
 		int a = grid.findSpy()[0];
 		int b = grid.findSpy()[1];
-		int moveDir = 0;
 		
 		for (int i = 0; i < grid.findNinja().size(); i++) {
 			ninjaPos[i] = grid.findNinja().get(i);
@@ -582,8 +581,10 @@ public class GameEngine implements Serializable {
 		for (int i = 0; i < ninjaPos.length - 1; i += 2) {
 			int count = 0;
 			boolean follow = true;
+			int moveDir = randNinjaMove();
 
 			do {
+				
 				if (ninjaPos[i] == a){
 					if (ninjaPos[i + 1] < b) {
 						for (int j = ninjaPos[i + 1]; j < b; j++){
@@ -627,11 +628,11 @@ public class GameEngine implements Serializable {
 							moveDir = 0;
 					}
 				}
-				
+				/*
 				else {
 					moveDir = randNinjaMove();					
 				}
-
+*/
 				// up
 				if (moveDir == 0) {
 					if (ninjaPos[i] - 1 > 0) {
