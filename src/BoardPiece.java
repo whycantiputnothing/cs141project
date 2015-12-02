@@ -1,5 +1,10 @@
 import java.io.Serializable;
-
+/**
+	 BoardPiece is a super class that takes in a String s, that represents the
+	 type of board piece (a power up, a ninja, etc). It also takes in a boolean 
+	 to set whether or not the String s board piece should be visible to the user. 
+	 */
+	 
 public class BoardPiece implements Serializable{
 	/**
 	 * 
