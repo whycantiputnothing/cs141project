@@ -16,6 +16,7 @@ public class UI {
 	private Scanner in = null;
 	private int option;
 	private boolean turn;
+	private boolean mode;
 	
 	/**
 	 * Initializes a GameEngine object along with the scanner
@@ -71,7 +72,16 @@ public class UI {
 	 * counts as a turn.  
 	 */
 	private void gameLoop() {
-
+		System.out.println("Please choose a difficulty:\n" + "\t1. Easy Mode\n" + "\t2. Hard Mode");
+		option = in.nextInt();
+		in.nextLine();
+		
+		if (option == 1) {
+			mode = false;
+		}
+		else
+			mode = true;
+		
 		while (!GE.gameWon()&&!GE.gameLost()) {
 			GE.hidePieces();
 			
@@ -114,8 +124,12 @@ public class UI {
 				}
 			}
 			GE.debugHelper();
-//			GE.moveNinjaHardMode();
-			GE.moveNinja();
+			
+			if (mode)
+				GE.moveNinjaHardMode();
+			else
+				GE.moveNinja();
+				
 			GE.ninjaStab();
 			dead();
 		}
