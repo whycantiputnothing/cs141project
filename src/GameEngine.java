@@ -567,11 +567,6 @@ public class GameEngine implements Serializable {
 		}
 	}
 
-	/**
-	 * This method respawns the spy back to the initial position of the grid
-	 * located at the bottom left corner. This occurs only when the spy loses a
-	 * life. Boolean isAlive is set back to true.
-	 */
 	public void moveNinjaHardMode() {
 		int[] ninjaPos = new int[grid.findNinja().size()];
 		int a = grid.findSpy()[0];
@@ -718,7 +713,12 @@ public class GameEngine implements Serializable {
 			} while (notAvailable);
 		}
 	}
-
+	
+	/**
+	 * This method respawns the spy back to the initial position of the grid
+	 * located at the bottom left corner. This occurs only when the spy loses a
+	 * life. Boolean isAlive is set back to true.
+	 */
 	public void respawn() {
 		int[] spyPos = grid.findSpy();
 		BoardPiece a = grid.getBoardPieceAt(spyPos[0], spyPos[1]);
@@ -755,7 +755,7 @@ public class GameEngine implements Serializable {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				BoardPiece a = grid.getBoardPieceAt(i, j);
-				a.setIsVisible();
+				a.setIsVisible(!isDebug);
 				if (a.getPieceType().equals("S")) {
 					a.setIsVisible(true);
 				}
