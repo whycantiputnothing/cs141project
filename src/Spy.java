@@ -3,7 +3,7 @@ public class Spy extends BoardPiece {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -829564556790736540L;
 
 	private int ammoCount = 1;
 	

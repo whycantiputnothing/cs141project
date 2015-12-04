@@ -6,13 +6,12 @@ import java.io.Serializable;
 	 */
 	 
 public class BoardPiece implements Serializable{
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -8409883465218665536L;
 	private boolean isVisible;
-	
 	private String pieceType;
 	
 	public BoardPiece (String s){

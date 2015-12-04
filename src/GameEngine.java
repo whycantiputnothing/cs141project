@@ -8,36 +8,23 @@ import java.util.Random;
  *
  */
 public class GameEngine implements Serializable {
-
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 8360099825502193420L;
 	private int numberOfMoves;
-
 	private int numberOfMovesCounter;
-
 	private boolean isAlive = true;
-
 	private boolean gotPowerUp = false;
-
 	private String powerUpName = "";
-
 	private int cannotEnter;
-
 	private boolean hasExtraBullet = false;
-
 	private boolean isInvincible;
-
 	private boolean ninjaGotShot;
-
 	private boolean ninjaSpotted;
-
 	private boolean roomBlock;
-
 	private boolean isDebug;
-
 	private Grid grid = new Grid();
 
 	/**

@@ -4,7 +4,7 @@ public class Room extends BoardPiece{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 842583909932733772L;
 
 	private boolean isBriefcaseVisible = false;
 	

@@ -3,9 +3,7 @@ import java.util.*;
 
 public class Grid implements Serializable{
 
-
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 4899020493699487965L;
 	private BoardPiece[][] grid = new BoardPiece[9][9];
 	
 	/**
