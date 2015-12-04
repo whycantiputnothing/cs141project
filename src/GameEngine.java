@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 
+ *
+ */
 public class GameEngine implements Serializable {
 
 	/**
@@ -36,15 +40,31 @@ public class GameEngine implements Serializable {
 
 	private Grid grid = new Grid();
 
+	/**
+	 * Instantiates the grid to be used in the game
+	 */
 	public void makeGrid() {
 		grid.instantiateGrid();
 	}
 
+	/**
+	 * Converts the grid into a printable string for the user to 
+	 * see and interact with
+	 * @return grid as string
+	 */
 	public String gridToString() {
 		return grid.toString();
 
 	}
 
+	/**
+	 * This method is called by the moveSpy method and is used to determine if 
+	 * the extra bullet has been picked up. If the powerup has been picked up, it is deleted 
+	 * from the game board. The powerup will increase the bullet count by 1, unless that bullet 
+	 * count is already at 1, in which case the bullet count will remain the same.
+	 * @param x row that the spy has moved into
+	 * @param y column that the spy has moved into
+	 */
 	public void getBullet(int x, int y) {
 		BoardPiece delete = new BoardPiece(" ");
 		int ammoCount = ((Spy) (grid.getBoardPieceAt(grid.findSpy()[0], grid.findSpy()[1]))).getAmmoCount();
@@ -65,6 +85,17 @@ public class GameEngine implements Serializable {
 		}
 	}
 
+	/**
+	 * This method is called by the moveSpy method and is used to determine if 
+	 * radar has been picked up. If the powerup has been picked up, it is deleted 
+	 * from the game board. The powerup itself will show the location of the room
+	 * that contains the briefcase by finding the briefcase and setting it to 
+	 * visibile. A message is also displayed to the user in the UI that explains
+	 * which room contains the briefcase
+	 * 
+	 * @param x row that the spy has moved into
+	 * @param y column that the spy has moved into
+	 */
 	public void getRadar(int x, int y) {
 		int briefRow = grid.findBriefCase()[0];
 		int briefCol = grid.findBriefCase()[1];
@@ -80,6 +111,16 @@ public class GameEngine implements Serializable {
 		}
 	}
 
+	/**
+	 * This method is called by the moveSpy method and is used to determine if 
+	 * invincibility has been picked up. If the powerup has been picked up,
+	 * it is deleted from the game board. The method takes the counter for the number
+	 * of moves the spy has made and uses it to implement invincibility for the next 
+	 * five moves.
+	 * 
+	 * @param x row that the spy has moved into
+	 * @param y column that the spy has moved into
+	 */
 	public void getInvincibility(int x, int y) {
 		BoardPiece delete = new BoardPiece(" ");
 
@@ -99,6 +140,15 @@ public class GameEngine implements Serializable {
 		}
 	}
 
+	/**
+	 * This method is the method instrumental in making board pieces move. It
+	 * takes the coordinates of one piece and swaps it with the coordinates
+	 * of an adjacent piece. 
+	 * @param w row of the first board piece
+	 * @param x column of the first board piece
+	 * @param y	row of the second board piece
+	 * @param z column of the second board piece
+	 */
 	public void swap(int w, int x, int y, int z) {
 		BoardPiece a = grid.getBoardPieceAt(w, x);
 		BoardPiece b = grid.getBoardPieceAt(y, z);
@@ -106,6 +156,14 @@ public class GameEngine implements Serializable {
 		grid.setBoardPieceAt(y, z, a);
 	}
 
+	/**
+	 * The moveSpy method takes a direction chosen by the user and moves the spy in that 
+	 * direction. The method will first check if a power has been picked up, and then uses
+	 * the swap method to swap places with whatever is next to the spy. If a powerup has
+	 * been picked up, its function will be enabled on the next turn.
+	 * 
+	 * @param x direction in which the spy will move as chosen by the user
+	 */
 	public void moveSpy(int x) {
 
 		if (x == 0) {
@@ -135,6 +193,15 @@ public class GameEngine implements Serializable {
 		}
 	}
 
+	/**
+	 * The shoot method is used to shoot in the direction chosen by the user.
+	 * If there is a ninja in the direction that the spy has chosen to shoot,
+	 * the ninja will be removed from the grid and a message from the UI will inform the
+	 * user that a ninja has been hit. The method only allows for the bullet to kill one
+	 * ninja, regardless of how many ninjas may be in the row or column that the spy shot.
+	 * 
+	 * @param x determines which direction to shoot, as chosen by the user
+	 */
 	public void shoot(int x) {
 		BoardPiece a = new BoardPiece(" ");
 		ninjaGotShot = false;
@@ -184,6 +251,11 @@ public class GameEngine implements Serializable {
 		((Spy) (grid.getBoardPieceAt(row, col))).setAmmoCount(0);
 	}
 
+	/**
+	 * The lookAround method will find the position of the spy on the grid and automatically
+	 * set the pieces immediately around the spy to visible. However, if the spy is touching the 
+	 * edge of the grid, nothing is changed on that side of the spy.
+	 */
 	public void lookAround() {
 		int row = grid.findSpy()[0];
 		int col = grid.findSpy()[1];
@@ -205,6 +277,15 @@ public class GameEngine implements Serializable {
 		}
 	}
 
+	
+	/**
+	 * The look method is the method that will make board pieces around the spy
+	 * visible if the spy chooses to look. If there is a room blocking the direction in which
+	 * the spy has chosen to look, the spy will not be able to look that way. Otherwise,
+	 * the piece is set to visible temporarily.
+	 * 
+	 * @param x to determine which direction to show pieces
+	 */
 	public void look(int x) {
 		int i = grid.findSpy()[0];
 		int j = grid.findSpy()[1];
@@ -323,6 +404,13 @@ public class GameEngine implements Serializable {
 
 	}
 
+	/**
+	 * This method determines whether the spy is allowed to look in the chosen direction.
+	 * It is not allowed to look if the spy is less than 2 spaces away from the boundaries
+	 * of the grid. 
+	 * @param i as the direction in which the user has chosen to look
+	 * @return boolean that states if the spy is allowed to look
+	 */
 	public boolean canSpyLook(int i) {
 		int[] spyPos = grid.findSpy();
 		int a = spyPos[0];
@@ -351,6 +439,14 @@ public class GameEngine implements Serializable {
 		return canLook;
 	}
 
+	/**
+	 * This method determines whether the spy can move in the chosen direction
+	 * as determined by the boundaries of the grid and also stops the spy
+	 * from moving if he tries to move into a room from any side other than the top.
+	 * 
+	 * @param direction as determined by user input from the UI
+	 * @return a boolean that states if the spy is allowed to move in the chosen direction
+	 */
 	public boolean canSpyMove(int direction) {
 		int[] spyPos = grid.findSpy();
 		int a = spyPos[0];
@@ -567,6 +663,11 @@ public class GameEngine implements Serializable {
 		}
 	}
 
+	/**
+	 * This method implements the hard version of the game. If this method is called,
+	 * ninjas will follow the spy as long as there is a clear "line of sight" between the
+	 * ninja and the spy. 
+	 */
 	public void moveNinjaHardMode() {
 		int[] ninjaPos = new int[grid.findNinja().size()];
 		int a = grid.findSpy()[0];
