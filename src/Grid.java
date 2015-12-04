@@ -3,13 +3,18 @@ import java.util.*;
 
 public class Grid implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private BoardPiece[][] grid = new BoardPiece[9][9];
-
+	
+	/**
+	 The instantiateGrid will place all of the board pieces to their appropriate 
+	 positions for any new game. This method will instantiate, then place all of the 
+	 Ninja and Power up board pieces to random locations in the grid, while placing 
+	 the Spy and Room board pieces to their correct location.  Any Ninjas that are 
+	 too close to the spy will also be moved further away from the Spy's location. 
+	 */
 	public void instantiateGrid() {
 
 		for (int i = 0; i < grid.length; i++) {
@@ -42,7 +47,17 @@ public class Grid implements Serializable{
 		placeRooms();
 		checkNinjaPosition();
 	}
-
+	/**
+	 The placeRooms method will place all of the Room board pieces
+	 to their correct locations on the grid. This method primarily uses 
+	 Int Array Lists to accomplish this, because we can change the length 
+	 of an Array List after it has been instantiated. We have two array lists 
+	 for the rows and the columns the Rooms were randomly shuffled to, and 
+	 another two array lists for the rows and the columns of the correct
+	 location for the rooms. If any of the shuffled Rooms happen to also be in a
+	 correct location, the row and column value of that Room will be deleted 
+	 from all Array Lists. 
+	 */
 	public void placeRooms() {
 		int count = 0;
 		List<Integer> rows = new ArrayList<Integer>();
@@ -97,7 +112,14 @@ public class Grid implements Serializable{
 			grid[roomPositionRows.get(i)][roomPositionCols.get(i)] = z;
 		}
 	}
-
+	
+	/**
+	 The shufflePieces method takes the instantiated 2D array, grid, and places
+	 all of its board pieces in an Array List. This is so collections.shuffle 
+	 can be used to shuffle all of the board pieces. Once the board pieces have 
+	 been shuffled, the pieces will be reassigned to their new positions, back
+	 to the grid, 2D array. 
+	 */
 	public void shufflePieces() {
 		List<BoardPiece> somePieces = new ArrayList<BoardPiece>();
 		for (int i = 0; i < grid.length; i++) {
@@ -117,7 +139,12 @@ public class Grid implements Serializable{
 			}
 		}
 	}
-
+	
+	/**
+	 The placeSpyAtStart method finds the position on the grid where the Spy 
+	 board piece is located, and swaps the Spy board piece with whatever 
+	 board piece is located in the lower left hand corner of the grid. 
+	 */
 	public void placeSpyAtStart() {
 		BoardPiece a = grid[8][0];
 		int c = findSpy()[0];
@@ -126,7 +153,13 @@ public class Grid implements Serializable{
 		grid[8][0] = b;
 		grid[c][d] = a;
 	}
-
+	
+	/**
+	 The findSpy method returns the position the Spy board piece is at,
+	 as the int array, spyAt. The first position of spyAt, or spyAt[0] 
+	 will be the row value of the position of the spy. The second position,
+	 spyAt[1], equals the column value of the position of the spy. 
+	 */
 	public int[] findSpy() {
 		int[] spyAt = { 0, 0 };
 	
@@ -204,10 +237,23 @@ public class Grid implements Serializable{
 		
 	}
 	
+	/**
+	 This method is the getter for any BoardPiece on the board, given the location
+	 of the board piece. It will return the BoardPiece type.
+	 @param x is the int value for the row the board piece is in
+	 @param y is the int value for the column the board piece is in
+	 */
 	public BoardPiece getBoardPieceAt(int x, int y) {
 		return grid[x][y];
 	}
-
+	
+	/**
+	 This method is the setter for any BoardPiece on the grid, given the location
+	 of the board piece. 
+	 @param x is the int value for the row the board piece is in
+	 @param y is the int value for the column the board piece is in
+	 @param a is the BoardPiece value located on the grid at grid[x][y]
+	 */
 	public void setBoardPieceAt(int x, int y, BoardPiece a) {
 		grid[x][y] = a;
 
