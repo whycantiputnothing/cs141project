@@ -157,6 +157,8 @@ public class Grid implements Serializable{
 	 as the int array, spyAt. The first position of spyAt, or spyAt[0] 
 	 will be the row value of the position of the spy. The second position,
 	 spyAt[1], equals the column value of the position of the spy. 
+	 @return an int array spyAt, with findSpy[0] = row value for spy, 
+	 	and findSpy[1] = column value for spy.
 	 */
 	public int[] findSpy() {
 		int[] spyAt = { 0, 0 };
@@ -219,6 +221,12 @@ public class Grid implements Serializable{
 		return ninjaPos;	
 	}
 	
+	/**
+	 This object, is an Int Array List with all of the row and column values
+	 of all of the power ups.
+	 @return Int Array List of row and column values, respectively, for all 
+	 	powerups by order of closest to the top of the grid, to the furthest.
+	 */
 	public List<Integer> findPowerUp() {
 		List<Integer> powerUpAt = new ArrayList<Integer>();
 		
@@ -240,6 +248,7 @@ public class Grid implements Serializable{
 	 of the board piece. It will return the BoardPiece type.
 	 @param x is the int value for the row the board piece is in
 	 @param y is the int value for the column the board piece is in
+	 @return the board piece at the location, grid[x][y]
 	 */
 	public BoardPiece getBoardPieceAt(int x, int y) {
 		return grid[x][y];
